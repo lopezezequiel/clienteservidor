@@ -1,0 +1,1 @@
+GRANT ALL ON preciosclaros.* TO apppreciosclaros@localhost IDENTIFIED BY 'tjZDOJcRNYkKHPGRxtxC';

@@ -1,0 +1,38 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Bandera</div>
+  <div class="panel-body">
+    
+<form role="form">
+
+    {{#if firm.id}}
+    <div class="form-group">
+        <label for="firm-id">Id:</label>
+        <input type="number" class="form-control" id="firm-id" name="id" value={{firm.id}} disabled="disabled">
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+        <label for="firm-name">Nombre:</label>
+        <input type="text" class="form-control" id="firm-name" name="name" value="{{firm.name}}">
+    </div>
+
+    <div class="form-group">
+        <label for="firm-company">Compañia</label>
+        <select class="form-control" id="firm-company" name="company">
+            {{#each companies}}
+            <option value={{id}}>{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <a class="btn btn-default" href="#firms">Cancelar</a>
+
+    {{#if firm.id}}
+    <button type="button" class="btn btn-default" onclick="$service.firm.update(this.form)">Actualizar</button>
+    <button type="button" class="btn btn-default" onclick="$service.firm.remove(this.form)">Eliminar</button>
+    {{else}}
+    <button type="button" class="btn btn-default" onclick="$service.firm.persist(this.form)">Guardar</button>
+    {{/if}}
+</form>
+  </div>
+</div>

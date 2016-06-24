@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "id": "/api_v1/company.schema",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "required": false
+        },
+        "cuit": {
+            "type": "string",
+            "required": true,
+            "minLength": 11,
+            "maxLength": 11
+        },
+        "name": {
+            "type": "string",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 30
+        }
+    }
+} 

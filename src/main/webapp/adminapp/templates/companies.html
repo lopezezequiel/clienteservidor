@@ -1,0 +1,19 @@
+<a class="btn btn-default" href="#companies/new">Nuevo</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Cuit</th>
+        <th>Nombre</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each companies}}
+        <tr>
+            <td><a href="#companies/{{id}}">{{id}}</a></td>
+            <td>{{cuit}}</td>
+            <td>{{name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

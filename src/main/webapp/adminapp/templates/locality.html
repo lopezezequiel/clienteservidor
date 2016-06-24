@@ -1,0 +1,45 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Localidad</div>
+  <div class="panel-body">
+    
+<form role="form">
+
+    {{#if locality.id}}
+    <div class="form-group">
+        <label for="locality-id">Id:</label>
+        <input type="number" class="form-control" id="locality-id" name="id" value={{locality.id}} disabled="disabled">
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+        <label for="locality-name">Nombre:</label>
+        <input type="text" class="form-control" id="locality-name" name="name" value="{{locality.name}}">
+    </div>
+
+    <div class="form-group">
+        <label for="locality-province">Provincia:</label>
+        <select class="form-control" id="locality-province" onchange="$service.locality.loadDepartments(this, 'locality-department');">
+            <option>Seleccione una provincia</option>
+            {{#each provinces}}
+            <option value={{id}}>{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="locality-department">Departamento:</label>
+        <select class="form-control" id="locality-department" name="department" disabled>
+        </select>
+    </div>
+
+    <a class="btn btn-default" href="#localities">Cancelar</a>
+
+    {{#if locality.id}}
+    <button type="button" class="btn btn-default" onclick="$service.locality.update(this.form)">Actualizar</button>
+    <button type="button" class="btn btn-default" onclick="$service.locality.remove({{locality.id}})">Eliminar</button>
+    {{else}}
+    <button type="button" class="btn btn-default" onclick="$service.locality.persist(this.form)">Guardar</button>
+    {{/if}}
+</form>
+  </div>
+</div>

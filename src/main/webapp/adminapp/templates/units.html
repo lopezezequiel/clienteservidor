@@ -1,0 +1,21 @@
+<a class="btn btn-default" href="#units/new">Nuevo</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Símbolo</th>
+        <th>Singular</th>
+        <th>Plural</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each units}}
+        <tr>
+            <td><a href="#units/{{id}}">{{id}}</a></td>
+            <td>{{symbol}}</td>
+            <td>{{singular}}</td>
+            <td>{{plural}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

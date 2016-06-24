@@ -1,0 +1,40 @@
+{
+    "type": "object",
+    "id": "/api_v1/branch.schema",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "required": false
+        },
+        "ean13": {
+            "type": "string",
+            "required": true,
+            "minLength": 13,
+            "maxLength": 13
+        },
+        "description": {
+            "type": "string",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 100
+        },
+        "brand": {
+            "type": "string",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 50
+        },
+        "number": {
+            "type": "number",
+            "required": true
+        },
+        "unit": {
+            "type": "integer",
+            "required": true
+        },
+        "category": {
+            "type": "integer",
+            "required": true
+        }
+    }
+} 

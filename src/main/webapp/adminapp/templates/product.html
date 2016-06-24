@@ -1,0 +1,61 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Producto</div>
+  <div class="panel-body">
+    
+<form role="form">
+
+    {{#if product.id}}
+    <div class="form-group">
+        <label for="product-id">Id:</label>
+        <input type="number" class="form-control" id="product-id" name="id" value={{product.id}} disabled="disabled">
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+        <label for="product-description">Descripción:</label>
+        <input type="text" class="form-control" id="product-description" name="description" value="{{product.description}}">
+    </div>
+
+    <div class="form-group">
+        <label for="product-brand">Marca:</label>
+        <input type="text" class="form-control" id="product-brand" name="brand" value="{{product.brand}}">
+    </div>
+
+    <div class="form-group">
+        <label for="product-ean13">Ean13:</label>
+        <input type="text" class="form-control" id="product-ean13" name="ean13" value="{{product.ean13}}">
+    </div>
+
+    <div class="form-group">
+        <label for="product-number">Cantidad:</label>
+        <input type="number" class="form-control" id="product-number" name="number" value={{product.number}}>
+    </div>
+    <div class="form-group">
+        <label for="product-unit">Unidad:</label>
+		<select class="form-control" id="product-unit" name="unit">
+			{{#each units}}
+			<option value={{id}}>{{singular}}</option>
+	        {{/each}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="product-category">Padre:</label>
+        <select class="form-control" id="product-category" name="category">
+            {{#each categories}}
+            <option value={{id}}>{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <a class="btn btn-default" href="#products">Cancelar</a>
+
+    {{#if product.id}}
+    <button type="button" class="btn btn-default" onclick="$service.product.update(this.form)">Actualizar</button>
+    <button type="button" class="btn btn-default" onclick="$service.product.remove({{product.id}})">Eliminar</button>
+    {{else}}
+    <button type="button" class="btn btn-default" onclick="$service.product.persist(this.form)">Guardar</button>
+    {{/if}}
+</form>
+  </div>
+</div>

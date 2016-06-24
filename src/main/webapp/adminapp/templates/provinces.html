@@ -1,0 +1,17 @@
+<a class="btn btn-default" href="#provinces/new">Nuevo</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each provinces}}
+        <tr>
+            <td><a href="#provinces/{{id}}">{{id}}</a></td>
+            <td>{{name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

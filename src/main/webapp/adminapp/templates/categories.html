@@ -1,0 +1,26 @@
+<a class="btn btn-default" href="#categories/new">Nuevo</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each categories}}
+        <tr>
+            <td><a href="#categories/{{id}}">{{id}}</a></td>
+            <td>{{name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<div class="text-center">
+	<ul class="pagination">
+	    <li><a href="#categories/page{{pagination.firstPage}}">&laquo;</a></li>
+	    {{#each pagination.pages}}
+	    <li {{#if active}}  class="active"{{/if}}><a href="#categories/page{{page}}">{{page}}</a></li>
+	    {{/each}}
+	    <li><a href="#categories/page{{pagination.lastPage}}">&raquo;</a></li>
+	</ul>
+</div>

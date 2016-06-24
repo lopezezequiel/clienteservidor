@@ -1,0 +1,32 @@
+{
+    "type": "object",
+    "id": "/api_v1/branch.schema",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "required": false
+        },
+        "firm": {
+          "type": "integer",
+          required: true
+        },
+        "address": {
+            "type": "string",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 100
+        },
+        "latitude": {
+            "type": "number",
+            "required": true
+        },
+        "longitude": {
+            "type": "number",
+            "required": true
+        },
+        "locality": {
+          "type": "integer",
+          "required": true
+        }
+    }
+} 

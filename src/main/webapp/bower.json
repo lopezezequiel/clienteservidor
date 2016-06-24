@@ -1,0 +1,17 @@
+{
+    "name": "clienteservidor.preciosclaros",
+    "version": "0.1.0",
+    "dependencies": {
+        "jquery": "2.2.3",
+        "bootstrap": "3.3.6",
+        "bootstrap-table": "1.8.1",
+        "handlebars": "4.0.5",
+        "tv4": "https://github.com/geraintluff/tv4.git#v1.2.7"
+    },
+    "install" : {
+        "path"  : {
+            "js": "/js/",
+            "css": "/css/"
+        }
+    }
+}

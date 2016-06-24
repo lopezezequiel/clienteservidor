@@ -1,0 +1,21 @@
+var $views = {
+	index: Bappse.compileTemplateFromURL('/adminapp/templates/index.html'),
+	categories: Bappse.compileTemplateFromURL('/adminapp/templates/categories.html'),
+	category: Bappse.compileTemplateFromURL('/adminapp/templates/category.html'),
+	provinces: Bappse.compileTemplateFromURL('/adminapp/templates/provinces.html'),
+	province: Bappse.compileTemplateFromURL('/adminapp/templates/province.html'),
+	units: Bappse.compileTemplateFromURL('/adminapp/templates/units.html'),
+	unit: Bappse.compileTemplateFromURL('/adminapp/templates/unit.html'),
+	products: Bappse.compileTemplateFromURL('/adminapp/templates/products.html'),
+	product: Bappse.compileTemplateFromURL('/adminapp/templates/product.html'),
+	localities: Bappse.compileTemplateFromURL('/adminapp/templates/localities.html'),
+	locality: Bappse.compileTemplateFromURL('/adminapp/templates/locality.html'),
+	departments: Bappse.compileTemplateFromURL('/adminapp/templates/departments.html'),
+	department: Bappse.compileTemplateFromURL('/adminapp/templates/department.html'),
+	companies: Bappse.compileTemplateFromURL('/adminapp/templates/companies.html'),
+	company: Bappse.compileTemplateFromURL('/adminapp/templates/company.html'),
+	firms: Bappse.compileTemplateFromURL('/adminapp/templates/firms.html'),
+	firm: Bappse.compileTemplateFromURL('/adminapp/templates/firm.html'),
+	branches: Bappse.compileTemplateFromURL('/adminapp/templates/branches.html'),
+	branch: Bappse.compileTemplateFromURL('/adminapp/templates/branch.html')
+}

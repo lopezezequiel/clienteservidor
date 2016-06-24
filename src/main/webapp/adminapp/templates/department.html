@@ -1,0 +1,38 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Departamento</div>
+  <div class="panel-body">
+    
+<form role="form">
+
+    {{#if department.id}}
+    <div class="form-group">
+        <label for="department-id">Id:</label>
+        <input type="number" class="form-control" id="department-id" name="id" value={{department.id}} disabled="disabled">
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+        <label for="department-name">Nombre:</label>
+        <input type="text" class="form-control" id="department-name" name="name" value="{{department.name}}">
+    </div>
+
+    <div class="form-group">
+        <label for="department-province">Provincia</label>
+        <select class="form-control" id="department-province" name="province">
+            {{#each provinces}}
+            <option value={{id}}>{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <a class="btn btn-default" href="#departments">Cancelar</a>
+
+    {{#if department.id}}
+    <button type="button" class="btn btn-default" onclick="$service.department.update(this.form)">Actualizar</button>
+    <button type="button" class="btn btn-default" onclick="$service.department.remove(this.form)">Eliminar</button>
+    {{else}}
+    <button type="button" class="btn btn-default" onclick="$service.department.persist(this.form)">Guardar</button>
+    {{/if}}
+</form>
+  </div>
+</div>

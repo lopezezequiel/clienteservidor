@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Provincia</div>
+  <div class="panel-body">
+    
+<form role="form">
+
+    {{#if province.id}}
+    <div class="form-group">
+        <label for="province-id">Id:</label>
+        <input type="number" class="form-control" id="province-id" name="id" value={{province.id}} disabled="disabled">
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+        <label for="province-name">Nombre:</label>
+        <input type="text" class="form-control" id="province-name" name="name" value="{{province.name}}">
+    </div>
+
+    <a class="btn btn-default" href="#provinces">Cancelar</a>
+
+    {{#if province.id}}
+    <button type="button" class="btn btn-default" onclick="$service.province.update(this.form)">Actualizar</button>
+    <button type="button" class="btn btn-default" onclick="$service.province.remove({{province.id}})">Eliminar</button>
+    {{else}}
+    <button type="button" class="btn btn-default" onclick="$service.province.persist(this.form)">Guardar</button>
+    {{/if}}
+</form>
+  </div>
+</div>

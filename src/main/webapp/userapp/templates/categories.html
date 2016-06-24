@@ -1,0 +1,16 @@
+<div class="row">
+	{{#each categories}}
+	<div class="col-xs-6 col-md-3">
+		<a href="#/categorias/{{id}}" class="thumbnail">
+			{{#if image}}
+			<img class="image-64x64" src="/img/categories/{{image}}" alt="{{name}}">
+			{{else}}
+			<img class="image-64x64" src="/img/categories/no-image.png" alt="{{name}}">
+			{{/if}}
+			<div class="caption">
+				<p class="text-center">{{name}}</p>
+			</div>
+		</a>
+	</div>
+	{{/each}}
+</div>

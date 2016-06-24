@@ -1,0 +1,25 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td>{{description}}</td>
+            <td><img src="/img/icons/plus.png" class="icon16" onclick="$service.add(this);" data-id={{id}}></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<div class="text-center">
+    <ul class="pagination">
+        <li><a href="#buscar/page{{pagination.firstPage}}?q={{q}}">&laquo;</a></li>
+        {{#each pagination.pages}}
+        <li {{#if active}}  class="active"{{/if}}><a href="#buscar/page{{page}}?q={{../q}}">{{page}}</a></li>
+        {{/each}}
+        <li><a href="#buscar/page{{pagination.lastPage}}?q={{q}}">&raquo;</a></li>
+    </ul>
+</div>

@@ -1,0 +1,24 @@
+{
+	"type": "object",
+	"id": "/api_v1/category.schema",
+	"properties": {
+		"id": {
+			"type": "integer",
+			"required": false
+		},
+		"name": {
+			"type": "string",
+			"required": true,
+			"minLength": 2,
+			"maxLength": 50
+		},
+	    "parent": {
+	      "type": ["integer", "null"],
+	      required: true
+	    },
+	    "image": {
+          "type": ["string", "null"],
+          "required": true
+	    }
+	}
+} 

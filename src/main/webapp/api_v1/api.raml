@@ -1,0 +1,41 @@
+#%RAML 0.8
+---
+title: API Precios Claros
+version: v1
+baseUri: http://preciosclaros.com/api_{version}/
+
+traits:
+  - pageable:
+      queryParameters:
+        offset:
+          description: "El numero del primer elemento a retornar."
+          required: false
+          type: integer
+          minimum: 0
+        limit:
+          description: "La cantidad máxima de elementos a retornar."
+          required: false
+          type: integer
+
+
+/categorias:
+  get:
+    description: "Retorna una lista de categorías."
+    is: [ pageable ]
+    queryParameters:
+      parent:
+        description: "El id del padre de las categorías retornadas."
+        required: false
+        type: integer
+        minimum: 0
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              "categories": [
+                  {"id":3,"name":"Bebes","parent":null},
+                  {"id":4,"name":"Bebidas con Alcohol","parent":null},
+                  {"id":5,"name":"Bebidas sin Alcohol","parent":null},
+                  {"id":10,"name":"Carne","parent":null}
+              ]

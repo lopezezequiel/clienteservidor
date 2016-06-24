@@ -1,0 +1,26 @@
+<form onsubmit="$service.stopSubmit()">
+    <input type="text" class="form-control" id="input-search" onkeypress="$service.search(event)" placeholder="buscar">
+</form>
+
+<h1>Carrito</h1>
+
+{{#if products}}
+<table class="table">
+    <thead>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td><a href="#">{{description}}</a></td>
+            <td><img src="/img/icons/minus.png" class="icon16" onclick="$service.cart.remove(this);" data-id={{id}}></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+Tu carrito esta vacío
+{{/if}}

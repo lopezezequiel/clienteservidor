@@ -1,0 +1,26 @@
+<a class="btn btn-default" href="#departments/new">Nuevo</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each departments}}
+        <tr>
+            <td><a href="#departments/{{id}}">{{id}}</a></td>
+            <td>{{name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<div class="text-center">
+    <ul class="pagination">
+        <li><a href="#departments/page{{pagination.firstPage}}">&laquo;</a></li>
+        {{#each pagination.pages}}
+        <li {{#if active}}  class="active"{{/if}}><a href="#departments/page{{page}}">{{page}}</a></li>
+        {{/each}}
+        <li><a href="#departments/page{{pagination.lastPage}}">&raquo;</a></li>
+    </ul>
+</div>
