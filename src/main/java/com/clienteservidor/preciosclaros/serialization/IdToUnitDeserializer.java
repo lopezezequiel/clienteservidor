@@ -23,12 +23,6 @@ public class IdToUnitDeserializer extends JsonDeserializer<Unit> {
 	@Override
 	public Unit deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         JsonNode node = p.getCodec().readTree(p);
-        /*
-        if(node.isInt()) {
-            return categoryDao.findById(node.asInt());
-        }
-        return null;
-        */
 
         return unitDao.findById(node.asInt());
 	}

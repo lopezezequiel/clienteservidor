@@ -28,16 +28,12 @@ public class FirmServiceImpl implements FirmService {
 		return firmDao.findById(id);
 	}
 
-	public void persist(Firm firm) {
-		firmDao.persist(firm);
+	public Firm persist(Firm firm) {
+		return firmDao.persist(firm);
 	}
 
 	public void update(int id, Firm firm) {
 		Firm oldFirm = firmDao.findById(id);
-
-		if(oldFirm == null) {
-			//TODO exception
-		}
 
 		firm.setId(id);
 		firm.setVersion(oldFirm.getVersion());
@@ -51,28 +47,17 @@ public class FirmServiceImpl implements FirmService {
 	}
 
 	public Collection<Firm> findAll(Integer offset, Integer limit, Integer companyId, String query) {
-		// TODO Auto-generated method stub
 		offset = ((offset == null) || (offset < 0)) ? 0 : offset;
 	    limit = ((limit == null) || (limit > LIMIT)) ? LIMIT : limit;
 	    
-	    Company company = null;
-	    if(companyId != null){
-	    	company = companyDao.findById(companyId);
-	    	if (company == null){
-	    		//TODO exception
-	    	}
-	    }
+
+	    Company company = (companyId == null) ? null : companyDao.findById(companyId);
 	    return firmDao.findAll(offset, limit, company, query);
 	}
 
 	public int length(Integer companyId, String query) {
-		Company company = null;
-	    if(companyId != null){
-	    	company = companyDao.findById(companyId);
-	    	if (company == null){
-	    		//TODO exception
-	    	}
-	    }
+
+	    Company company = (companyId == null) ? null : companyDao.findById(companyId);
 	    return firmDao.length(company, query);
 	}
 }

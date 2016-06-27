@@ -404,3 +404,17 @@ $service.branch.loadLocalities = function(select, target_id) {
 		target.disabled = false;
 	}).ok();
 }
+
+
+/*
+ * NormalUser Service
+ */
+$service.branchUser = {};
+
+$service.branchUser.persist = function(form) {
+	var user = Bappse.getFormData(form);
+
+	$dao.branchUser.persist(user).success(function(user) {
+		Bappse.setHash('branchUsers');
+	}).ok();
+}

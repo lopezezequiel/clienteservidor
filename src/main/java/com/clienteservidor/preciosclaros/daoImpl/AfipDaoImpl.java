@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.clienteservidor.preciosclaros.Exceptions.EntityNotFoundException;
 import com.clienteservidor.preciosclaros.dao.AfipDao;
 import com.clienteservidor.preciosclaros.model.Afip;
 
@@ -19,8 +20,14 @@ public class AfipDaoImpl implements AfipDao{
     	return sessionFactory.getCurrentSession();
     }
     
-	public boolean existe(String cuit) {
-		return getSession().get(Afip.class, cuit) != null;
+	public Afip findByCuit(String cuit) {
+		Afip afip = (Afip) getSession().get(Afip.class, cuit);
+
+		if(afip == null) {
+			throw new EntityNotFoundException();
+		}
+
+		return  afip;
 	}
 
 }

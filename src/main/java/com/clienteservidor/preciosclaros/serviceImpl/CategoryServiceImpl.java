@@ -27,29 +27,16 @@ public class CategoryServiceImpl implements CategoryService{
 	public Collection<Category> findAll(Integer offset, Integer limit, Integer parentId, String query) {
 	    offset = ((offset == null) || (offset < 0)) ? 0 : offset;
 	    limit = ((limit == null) || (limit > LIMIT)) ? LIMIT : limit;
-
-	    Category parent = null;
-
-	    if(parentId != null) {
-	    	parent = categoryDao.findById(parentId);
-	    	if(parent == null) {
-	    		//TODO parent not found
-	    	}
-	    }
-
+	    Category parent = (parentId == null) ? null : categoryDao.findById(parentId);
 	    return categoryDao.findAll(offset, limit, parent, query);
 	}
 
-	public void persist(Category category) {
-		categoryDao.persist(category);
+	public Category persist(Category category) {
+		return categoryDao.persist(category);
 	}
 
 	public void update(int id, Category category) {
 		Category oldCategory = categoryDao.findById(id);
-
-		if(oldCategory == null) {
-			//TODO exception
-		}
 
 		category.setId(id);
 		category.setVersion(oldCategory.getVersion());
@@ -64,15 +51,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	public int length(Integer parentId, String query) {
-		Category parent = null;
-
-	    if(parentId != null) {
-	    	parent = categoryDao.findById(parentId);
-	    	if(parent == null) {
-	    		//TODO parent not found
-	    	}
-	    }
-
+		Category parent = (parentId == null) ? null : categoryDao.findById(parentId);
 	    return categoryDao.length(parent, query);
 	}
 

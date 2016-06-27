@@ -2,7 +2,6 @@ package com.clienteservidor.preciosclaros.service;
 
 import java.util.Collection;
 
-
 import com.clienteservidor.preciosclaros.model.Locality;
 
 public interface LocalityService extends GenericService<Locality>{	

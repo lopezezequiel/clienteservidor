@@ -2,12 +2,10 @@ package com.clienteservidor.preciosclaros.daoImpl;
 
 import java.util.Collection;
 
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.clienteservidor.preciosclaros.dao.CategoryDao;
 import com.clienteservidor.preciosclaros.model.Category;
-import com.clienteservidor.preciosclaros.model.Product;
 
 @Repository("categoryDao")
 public class CategoryDaoImpl extends GenericDaoImpl<Category> implements CategoryDao{

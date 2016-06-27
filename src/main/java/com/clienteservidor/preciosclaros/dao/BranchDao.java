@@ -8,9 +8,10 @@ import com.clienteservidor.preciosclaros.model.Firm;
 
 public interface BranchDao {
 	Branch findById(int id);
-	Collection<Branch> findAll(Integer offset, Integer limit, Firm firm, Locality locality);
 	int length(Firm firm, Locality locality);
-    void persist(Branch branch);
+    Branch persist(Branch branch);
     void update(Branch branch);
     void delete(Branch branch);
+	Collection<Branch> findAll(Integer offset, Integer limit, Firm firm, Locality locality, Double latitude,
+			Double longitude);
 }

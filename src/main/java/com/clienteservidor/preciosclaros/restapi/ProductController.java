@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clienteservidor.preciosclaros.model.Product;
-import com.clienteservidor.preciosclaros.restapi.responsestatus.ResourceNotFoundException;
 import com.clienteservidor.preciosclaros.service.ProductService;
 
 @RestController
@@ -44,11 +43,6 @@ public class ProductController extends GenericController<ProductService> {
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void deleteById(@PathVariable("id") int id){
         Product product = service.findById(id);
-
-        if(product == null) {
-        	throw new ResourceNotFoundException();
-        }
-
         service.delete(product);
 	}
 	

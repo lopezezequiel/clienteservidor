@@ -1,10 +1,7 @@
 package com.clienteservidor.preciosclaros.daoImpl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.clienteservidor.preciosclaros.dao.UserDao;
@@ -12,26 +9,23 @@ import com.clienteservidor.preciosclaros.model.User;
 
 @Repository("userDao")
 public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
+
 	public UserDaoImpl() {
 		this.entityClass = User.class; 
 	}
 
-	public Collection<User> findAll(Integer offset, Integer limit, String username) {
-		Criteria criteria = getSession().createCriteria(User.class);
-		setOffset(criteria, offset);
-		setLimit(criteria, limit);
-		filterEq(criteria, "username", username);
-
-		return (Collection<User>) criteria.list();
+	@SuppressWarnings("unchecked")
+	public Collection<User> findAll(Integer offset, Integer limit, String query) {
+		return getQuery().setLimit(limit).setOffset(offset)
+				.search(query, "mail").getResults();
 	}
 
-	public User findByUserName(String username) {
-		Criteria criteria = getSession().createCriteria(User.class);
-		filterEq(criteria, "username", username);
-		User user= (User) criteria.list().get(0);
-		return user;
-		
-		//return (User) getSession().get(entityClass, username);
+	public User findByMail(String mail) {
+		return (User) getQuery().filterEq("mail", mail).getResults().get(0);
+	}
+
+	public int size(String query) {
+		return getQuery().search(query, "mail").getResults().size();
 	}
 
 }

@@ -1,0 +1,43 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Usuario</div>
+  <div class="panel-body">
+    
+<form role="form">
+
+    {{#if user.id}}
+    <div class="form-group">
+        <label for="user-id">Id:</label>
+        <input type="number" class="form-control" id="user-id" name="id" value={{user.id}} disabled="disabled">
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+        <label for="user-mail">Mail:</label>
+        <input type="text" class="form-control" id="user-mail" name="mail" value="{{user.mail}}">
+    </div>
+
+    <div class="form-group">
+        <label for="user-password">Clave:</label>
+        <input type="text" class="form-control" id="user-password" name="password">
+    </div>
+
+    <div class="form-group">
+        <label for="user-role">Rol:</label>
+        <select class="form-control" id="user-role" name="role">
+            {{#each roles}}
+            <option value={{this}}>{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <a class="btn btn-default" href="#users">Cancelar</a>
+
+    {{#if user.id}}
+    <button type="button" class="btn btn-default" onclick="$service.user.update(this.form)">Actualizar</button>
+    <button type="button" class="btn btn-default" onclick="$service.user.remove(this.form)">Eliminar</button>
+    {{else}}
+    <button type="button" class="btn btn-default" onclick="$service.user.persist(this.form)">Guardar</button>
+    {{/if}}
+</form>
+  </div>
+</div>

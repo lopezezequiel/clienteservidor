@@ -1,5 +1,7 @@
 package com.clienteservidor.preciosclaros.service;
 
+import com.clienteservidor.preciosclaros.model.Afip;
+
 public interface AfipService {
-	public boolean existe(String cuit);
+	public Afip findByCuit(String cuit);
 }

@@ -2,14 +2,11 @@ package com.clienteservidor.preciosclaros.daoImpl;
 
 import java.util.Collection;
 
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.clienteservidor.preciosclaros.dao.LocalityDao;
 import com.clienteservidor.preciosclaros.model.Department;
-import com.clienteservidor.preciosclaros.model.Firm;
 import com.clienteservidor.preciosclaros.model.Locality;
-import com.clienteservidor.preciosclaros.model.Province;
 
 @Repository("localityDao")
 public class LocalityDaoImpl extends GenericDaoImpl<Locality> implements LocalityDao {

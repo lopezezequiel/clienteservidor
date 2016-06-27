@@ -17,5 +17,7 @@ var $views = {
 	firms: Bappse.compileTemplateFromURL('/adminapp/templates/firms.html'),
 	firm: Bappse.compileTemplateFromURL('/adminapp/templates/firm.html'),
 	branches: Bappse.compileTemplateFromURL('/adminapp/templates/branches.html'),
-	branch: Bappse.compileTemplateFromURL('/adminapp/templates/branch.html')
+	branch: Bappse.compileTemplateFromURL('/adminapp/templates/branch.html'),
+	users: Bappse.compileTemplateFromURL('/adminapp/templates/users.html'),
+	user: Bappse.compileTemplateFromURL('/adminapp/templates/user.html')
 }

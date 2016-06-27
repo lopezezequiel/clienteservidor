@@ -27,17 +27,13 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyDao.findById(id);
 	}
 
-	public void persist(Company company) {
-		if(!afipDao.existe(company.getCuit())) {
-			//TODO Exception
-		}
-		companyDao.persist(company);
+	public Company persist(Company company) {
+		afipDao.findByCuit(company.getCuit());
+		return companyDao.persist(company);
 	}
 
 	public void update(int id, Company company) {
-		if(!afipDao.existe(company.getCuit())) {
-			//TODO Exception
-		}
+		afipDao.findByCuit(company.getCuit());
 		Company oldCompany = companyDao.findById(id);
 
 		if(oldCompany == null) {

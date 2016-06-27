@@ -7,7 +7,7 @@ import com.clienteservidor.preciosclaros.model.Unit;
 public interface UnitDao {
 	Unit findById(int id);
 	Collection<Unit> findAll(Integer offset, Integer limit, String query);	
-    void persist(Unit unit);
+    Unit persist(Unit unit);
     void update(Unit unit);
     void delete(Unit unit);
 

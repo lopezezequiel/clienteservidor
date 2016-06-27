@@ -1,21 +1,16 @@
 package com.clienteservidor.preciosclaros.model;
 
-import java.util.Collection;
-
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import com.clienteservidor.preciosclaros.serialization.EntityToIdSerializer;
 import com.clienteservidor.preciosclaros.serialization.IdToFirmDeserializer;
 import com.clienteservidor.preciosclaros.serialization.IdToLocalityDeserializer;
-import com.clienteservidor.preciosclaros.serialization.LocationSerializer;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -42,17 +37,8 @@ public class Branch extends GenericEntity {
 	@JsonDeserialize(using = IdToLocalityDeserializer.class)
 	private Locality locality;
 
-	@OneToMany(mappedBy="branch", fetch=FetchType.LAZY)
-	@JsonIgnore
-	private Collection<BranchProduct> products;
-
-	public Collection<BranchProduct> getProducts() {
-		return products;
-	}
-
-	public void setProducts(Collection<BranchProduct> products) {
-		this.products = products;
-	}
+	@Transient
+	private Double distance;
 
 	public Branch(){}
 	
@@ -87,7 +73,7 @@ public class Branch extends GenericEntity {
 
 	@JsonGetter("longitude")
 	public double getLongitude() {
-		return this.getLocation().getLatitude();
+		return this.getLocation().getLongitude();
 	}
 
 	@JsonSetter("latitude")
@@ -108,4 +94,11 @@ public class Branch extends GenericEntity {
 		this.locality = locality;
 	}
 
+	public Double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
+	}
 }

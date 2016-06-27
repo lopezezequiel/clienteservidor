@@ -2,13 +2,11 @@ package com.clienteservidor.preciosclaros.daoImpl;
 
 import java.util.Collection;
 
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.clienteservidor.preciosclaros.dao.FirmDao;
 import com.clienteservidor.preciosclaros.model.Company;
 import com.clienteservidor.preciosclaros.model.Firm;
-import com.clienteservidor.preciosclaros.model.Product;
 
 @Repository("firmDao")
 public class FirmDaoImpl extends GenericDaoImpl<Firm> implements FirmDao{

@@ -1,46 +1,41 @@
 package com.clienteservidor.preciosclaros.daoImpl;
 
-import java.util.Collection;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.clienteservidor.preciosclaros.Exceptions.EntityNotFoundException;
 import com.clienteservidor.preciosclaros.beanutils.Query;
 import com.clienteservidor.preciosclaros.model.GenericEntity;
-import com.clienteservidor.preciosclaros.model.Product;
  
 public abstract class GenericDaoImpl<T extends GenericEntity> {
 	
 	protected Class<T> entityClass;
-	
-//	@PersistenceContext
-//	private EntityManager entityManager;
  
     @Autowired
     private SessionFactory sessionFactory;
  
     protected Session getSession() {
-    	//return (Session) entityManager.getDelegate();
     	return sessionFactory.getCurrentSession();
     }
 
 	@SuppressWarnings("unchecked")
 	public T findById(int id) {
-        return (T) getSession().get(entityClass, id);
+        T entity = (T) getSession().get(entityClass, id);
+        
+        if(entity == null) {
+        	throw new EntityNotFoundException();
+        }
+        
+        return entity;
 	}
  
-    public void persist(T entity) {
+    public T persist(T entity) {
     	entity.setVersion(0);
         getSession().persist(entity);
+        return entity;
     }
  
     public void update(T entity) {

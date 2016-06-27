@@ -5,23 +5,38 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.clienteservidor.preciosclaros.serialization.ProductToEanSerializer;
+import com.clienteservidor.preciosclaros.serialization.eanToProductDeserializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
 public class BranchProduct extends GenericEntity {
 
 	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonIgnore
 	private Branch branch;
 
 	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonSerialize(using = ProductToEanSerializer.class)
+	@JsonDeserialize(using = eanToProductDeserializer.class)
 	private Product product;
 
 	@NotNull
 	private double price;
 	
 	@NotNull
+	@JsonIgnore
 	private boolean expired;
 
+	@JsonIgnore
+	public int getId() {
+		return id;
+	}
+	
 	public Branch getBranch() {
 		return branch;
 	}

@@ -21,14 +21,14 @@ public class ProvinceController extends GenericController<ProvinceService>{
 	public Collection<Province> findAll(
 		@RequestParam(value="offset", required=false) Integer offset,
 		@RequestParam(value="limit", required=false) Integer limit,
-		@RequestParam(value="query", required=false) String query) {
+		@RequestParam(value="q", required=false) String query) {
 
         return service.findAll(offset, limit, query);
 	}
 	
 	@RequestMapping("length")
 	public int length(
-		@RequestParam(value="name", required=false) String query) {
+		@RequestParam(value="q", required=false) String query) {
 
         return service.length(query);
 	}

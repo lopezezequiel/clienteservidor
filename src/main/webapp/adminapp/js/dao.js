@@ -54,3 +54,5 @@ $dao.province = DaoFactory($schema.province, '/api_v1/provinces');
 $dao.company = DaoFactory($schema.company, '/api_v1/companies');
 $dao.product = DaoFactory($schema.product, '/api_v1/products');
 $dao.unit = DaoFactory($schema.unit, '/api_v1/units');
+$dao.user = DaoFactory($schema.user, '/api_v1/users');
+$dao.role = DaoFactory($schema.role, '/api_v1/roles');

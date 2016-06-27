@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.clienteservidor.preciosclaros.beanutils.MyBeanUtils;
 import com.clienteservidor.preciosclaros.dao.DepartmentDao;
 import com.clienteservidor.preciosclaros.dao.ProvinceDao;
-import com.clienteservidor.preciosclaros.model.Company;
 import com.clienteservidor.preciosclaros.model.Department;
-import com.clienteservidor.preciosclaros.model.Firm;
 import com.clienteservidor.preciosclaros.model.Province;
 import com.clienteservidor.preciosclaros.service.DepartmentService;
 
@@ -31,16 +29,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return departmentDao.findById(id);
 	}
 
-	public void persist(Department entity) {
-		departmentDao.persist(entity);
+	public Department persist(Department entity) {
+		return departmentDao.persist(entity);
 	}
 
 	public void update(int id, Department entity) {
 		Department oldDepartment = departmentDao.findById(id);
-		if(oldDepartment == null) {
-			//TODO exception
-		}
-
 		entity.setId(id);
 		entity.setVersion(oldDepartment.getVersion());
 		MyBeanUtils.copyProperties(entity, oldDepartment);
@@ -56,24 +50,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 		offset = ((offset == null) || (offset < 0)) ? 0 : offset;
 	    limit = ((limit == null) || (limit > LIMIT)) ? LIMIT : limit;
 	    
-	    Province province = null;
-	    if(provinceId != null){
-	    	province = provinceDao.findById(provinceId);
-	    	if (province == null){
-	    		//TODO exception
-	    	}
-	    }
+
+	    Province province = (provinceId == null) ? null : provinceDao.findById(provinceId);
 	    return departmentDao.findAll(offset, limit, province, query);
 	}
 
 	public int length(Integer provinceId, String query) {
-		Province province = null;
-	    if(provinceId != null){
-	    	province = provinceDao.findById(provinceId);
-	    	if (province == null){
-	    		//TODO exception
-	    	}
-	    }
+
+	    Province province = (provinceId == null) ? null : provinceDao.findById(provinceId);
 	    return departmentDao.length(query, province);
 	}
 

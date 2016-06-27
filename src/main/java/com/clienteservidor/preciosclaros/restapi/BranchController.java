@@ -21,9 +21,11 @@ public class BranchController extends GenericController<BranchService> {
 			@RequestParam(value="offset", required=false) Integer offset,
 			@RequestParam(value="limit", required=false) Integer limit,
 			@RequestParam(value="firm", required=false) Integer firmId,
-			@RequestParam(value="locality", required=false) Integer localityId){
+			@RequestParam(value="locality", required=false) Integer localityId,
+			@RequestParam(value="latitude", required=false) Double latitude,
+			@RequestParam(value="longitude", required=false) Double longitude){
 
-	   	Collection<Branch> branchs = service.findAll(offset, limit, firmId, localityId);
+	   	Collection<Branch> branchs = service.findAll(offset, limit, firmId, localityId, latitude, longitude);
         return branchs;
 	}
 	

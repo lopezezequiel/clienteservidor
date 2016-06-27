@@ -8,7 +8,7 @@ public interface ProvinceDao {
 	Province findById(int id);
 	Collection<Province> findAll(Integer offset, Integer limit, String query);
 	int length(String query);
-    void persist(Province province);     
+    Province persist(Province province);     
     void update(Province province);
     void delete(Province province);
 }

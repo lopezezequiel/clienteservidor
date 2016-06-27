@@ -13,13 +13,6 @@ public class EntityToIdSerializer extends JsonSerializer<GenericEntity>{
 
 	public void serialize(GenericEntity entity, JsonGenerator gen, SerializerProvider serializers)
 			throws IOException, JsonProcessingException {
-		/*
-		if(entity != null) {
-			gen.writeNumber(entity.getId());
-		} else {
-			gen.writeNull();
-		}
-		*/
 
 		gen.writeNumber(entity.getId());
 	}

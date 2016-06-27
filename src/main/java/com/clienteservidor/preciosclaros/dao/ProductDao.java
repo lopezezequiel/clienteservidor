@@ -7,9 +7,10 @@ import com.clienteservidor.preciosclaros.model.Product;
 
 public interface ProductDao {
 	Product findById(int id);
+	Product findByEAN(String ean);
 	Collection<Product> findAll(Integer offset, Integer limit, String query, Category category);	
 	int length(String query, Category category);
-    void persist(Product product);
+    Product persist(Product product);
     void update(Product product);
     void delete(Product product);
 }

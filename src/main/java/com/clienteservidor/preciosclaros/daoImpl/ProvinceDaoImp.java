@@ -2,11 +2,9 @@ package com.clienteservidor.preciosclaros.daoImpl;
 
 import java.util.Collection;
 
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.clienteservidor.preciosclaros.dao.ProvinceDao;
-import com.clienteservidor.preciosclaros.model.Locality;
 import com.clienteservidor.preciosclaros.model.Province;
 
 @Repository("provinceDao")

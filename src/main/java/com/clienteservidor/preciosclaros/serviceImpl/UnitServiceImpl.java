@@ -24,17 +24,12 @@ public class UnitServiceImpl implements UnitService {
 		return unitDao.findById(id);
 	}
 
-	public void persist(Unit unit) {
-		unitDao.persist(unit);
+	public Unit persist(Unit unit) {
+		return unitDao.persist(unit);
 	}
 
 	public void update(int id, Unit unit) {
 		Unit oldUnit = unitDao.findById(id);
-
-		if(oldUnit == null) {
-			//TODO exception
-		}
-
 		unit.setId(id);
 		unit.setVersion(oldUnit.getVersion());
 		MyBeanUtils.copyProperties(unit, oldUnit);

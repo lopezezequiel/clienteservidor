@@ -9,7 +9,7 @@ public interface DepartmentDao {
 	Department findById(int id);
 	Collection<Department> findAll(Integer offset, Integer limit, Province province, String name);
 	int length(String name, Province province);
-    void persist(Department city);
+    Department persist(Department city);
     void update(Department city);
     void delete(Department city);
 }

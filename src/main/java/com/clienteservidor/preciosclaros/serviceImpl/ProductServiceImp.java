@@ -2,11 +2,6 @@ package com.clienteservidor.preciosclaros.serviceImpl;
 
 import java.util.Collection;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,27 +34,16 @@ public class ProductServiceImp implements ProductService {
 		offset = ((offset == null) || (offset < 0)) ? 0 : offset;
 	    limit = ((limit == null) || (limit > LIMIT)) ? LIMIT : limit;
 	    
-	    Category category=null;
-	    if (categoryId != null){
-	    	category = categoryDao.findById(categoryId);	    	
-	    	if (category==null){
-	    		//TODO no existe categoria
-	    	}
-	    }
-	    	    
+	    Category category = (categoryId == null) ? null : categoryDao.findById(categoryId);
 		return productDao.findAll(offset, limit, query, category);	
 	}
 
-	public void persist(Product product) {
-		productDao.persist(product);
+	public Product persist(Product product) {
+		return productDao.persist(product);
 	}
 
 	public void update(int id,Product product) {
 		Product oldProduct = productDao.findById(id);
-
-		if(oldProduct == null) {
-			//TODO exception
-		}
 		product.setId(id);
 		product.setVersion(oldProduct.getVersion());
 		MyBeanUtils.copyProperties(product, oldProduct);
@@ -72,14 +56,7 @@ public class ProductServiceImp implements ProductService {
 	}
 
 	public int length(String query, Integer categoryId) {
-	    Category category=null;
-	    if (categoryId!=null){
-	    	category= categoryDao.findById(categoryId);	    	
-	    	if (category==null){
-	    		return 0; //TODO no existe categoria
-	    	}
-	    }
-	    	    
+	    Category category = (categoryId == null) ? null : categoryDao.findById(categoryId);
 		return productDao.length(query, category);
 	}
 }

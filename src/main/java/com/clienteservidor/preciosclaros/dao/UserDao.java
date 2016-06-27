@@ -6,9 +6,10 @@ import com.clienteservidor.preciosclaros.model.User;
 
 public interface UserDao {
 	User findById(int id);
-	User findByUserName(String username);
-	Collection<User> findAll(Integer offset, Integer limit, String username);
-    void persist(User user);     
+	User findByMail(String mail);
+	Collection<User> findAll(Integer offset, Integer limit, String query);
+    User persist(User user);     
     void update(User user);
     void delete(User user);
+	int size(String query);
 }

@@ -8,7 +8,7 @@ public interface CompanyDao {
     Company findById(int id);
     Collection<Company> findAll(Integer offset, Integer limit, String name);    
     int length(String name);
-    void persist(Company company);
+    Company persist(Company company);
     void update(Company company);
     void delete(Company company);
 }

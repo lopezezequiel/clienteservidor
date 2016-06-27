@@ -1,0 +1,26 @@
+<a class="btn btn-default" href="#users/new">Nuevo</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+        <tr>
+            <td><a href="#users/{{id}}">{{id}}</a></td>
+            <td>{{mail}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<div class="text-center">
+    <ul class="pagination">
+        <li><a href="#users/page{{pagination.firstPage}}">&laquo;</a></li>
+        {{#each pagination.pages}}
+        <li {{#if active}}  class="active"{{/if}}><a href="#users/page{{page}}">{{page}}</a></li>
+        {{/each}}
+        <li><a href="#users/page{{pagination.lastPage}}">&raquo;</a></li>
+    </ul>
+</div>

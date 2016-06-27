@@ -24,17 +24,12 @@ public class ProvinceServiceImp implements ProvinceService {
 		return provinceDao.findById(id);
 	}
 
-	public void persist(Province province) {
-		provinceDao.persist(province);
+	public Province persist(Province province) {
+		return provinceDao.persist(province);
 	}
 
 	public void update(int id, Province province) {
 		Province oldProvince = provinceDao.findById(id);
-
-		if(oldProvince == null) {
-			//TODO exception
-		}
-
 		province.setId(id);
 		province.setVersion(oldProvince.getVersion());
 		MyBeanUtils.copyProperties(province, oldProvince);

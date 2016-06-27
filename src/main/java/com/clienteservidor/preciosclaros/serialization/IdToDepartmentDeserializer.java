@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.clienteservidor.preciosclaros.dao.DepartmentDao;
-import com.clienteservidor.preciosclaros.dao.FirmDao;
 import com.clienteservidor.preciosclaros.model.Department;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

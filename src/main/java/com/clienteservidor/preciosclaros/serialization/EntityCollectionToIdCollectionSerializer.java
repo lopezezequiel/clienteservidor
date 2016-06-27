@@ -3,8 +3,6 @@ package com.clienteservidor.preciosclaros.serialization;
 import java.io.IOException;
 import java.util.Collection;
 
-import javax.transaction.Transactional;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;

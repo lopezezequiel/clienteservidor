@@ -1,6 +1,5 @@
 package com.clienteservidor.preciosclaros.beanutils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,8 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
 
+import com.clienteservidor.preciosclaros.model.GenericEntity;
 import com.clienteservidor.preciosclaros.model.Product;
 
 public class Query {
@@ -65,11 +64,13 @@ public class Query {
     	query = getFullTextSession().getSearchFactory().buildQueryBuilder()
     			.forEntity(cls).get().keyword().onFields(fields)
     			.matching(search).createQuery();
+    	
 
     	return this;
     }
     
-    public List getResults() {
+    @SuppressWarnings("rawtypes")
+	public List getResults() {
     	if(query == null) {
     		return criteria.list();
     	}
@@ -79,4 +80,11 @@ public class Query {
 
     	return fullTextQuery.list();
     }
+
+	public Query filterIn(String attribute, Collection<?> entities) {
+		if(entities != null) {
+			criteria.add(Restrictions.in(attribute, entities));
+		}
+		return this;
+	}
 }

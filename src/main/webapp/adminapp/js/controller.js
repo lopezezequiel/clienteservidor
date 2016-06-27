@@ -404,3 +404,52 @@ Bappse.route(/^branches\/new$/, function() {
 			});
 		}).ok();
 });
+
+
+/*
+ * CRUD User
+ */
+Bappse.route(/^users(?:\/page([0-9]+))?$/, function(page) {
+	page = parseInt(page || 0);
+	Bappse.AjaxQueue(
+		$dao.user.findAll({
+			offset: page * $config.pagination.itemsByPage,
+			limit: $config.pagination.itemsByPage
+		}),
+		$dao.user.count()
+	).success(function(users, length) {
+		$views.users.render(
+			app, {
+				users: users,
+				pagination: $service.pagination(
+					page,
+					Math.ceil(length/$config.pagination.itemsByPage),
+					$config.pagination.size
+				)
+			}
+		);
+	}).ok();
+});
+
+Bappse.route(/^users\/(\d+)$/, function(id) {
+	Bappse.AjaxQueue(
+		$dao.user.findById(parseInt(id)),
+		$dao.role.findAll()
+	).success(function(user, roles) {
+		$views.user.render(
+			app, {
+				user: user,
+				roles: roles
+		});
+	}).ok();
+});
+
+Bappse.route(/^users\/new$/, function() {
+	$dao.role.findAll().success(function(roles) {
+			$views.user.render(
+				app, {
+					user: {},
+					roles: roles
+			});
+		}).ok();
+});

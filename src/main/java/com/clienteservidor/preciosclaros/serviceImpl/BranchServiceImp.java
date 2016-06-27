@@ -33,40 +33,23 @@ public class BranchServiceImp implements BranchService {
 		return branchDao.findById(id);
 	}
 
-	public Collection<Branch> findAll(Integer offset, Integer limit, Integer firmId, Integer cityId) {
+	public Collection<Branch> findAll(Integer offset, Integer limit,
+			Integer firmId, Integer localityId, Double latitude, Double longitude) {
+
 		offset = ((offset == null) || (offset < 0)) ? 0 : offset;
 	    limit = ((limit == null) || (limit > LIMIT)) ? LIMIT : limit;
+	    Firm firm = (firmId == null) ? null : firmDao.findById(firmId);
+	    Locality locality = (localityId == null) ? null : localityDao.findById(localityId);
 
-
-	    Firm firm = null;
-	    if (firmId != null){
-	    	firm = firmDao.findById(firmId);
-		    if (firm == null){
-		    	//TODO exception
-		    }
-	    }
-	    
-	    Locality locality = null;	    
-	    if (cityId != null){
-	    	locality = localityDao.findById(cityId);
-		    if (locality == null){
-		    	//TODO exception
-		    }
-	    }
-
-		return branchDao.findAll(offset, limit, firm, locality);
+		return branchDao.findAll(offset, limit, firm, locality, latitude, longitude);
 	}
 
-	public void persist(Branch branch) {		
-		branchDao.persist(branch);
+	public Branch persist(Branch branch) {		
+		return branchDao.persist(branch);
 	}
 
 	public void update(int id, Branch branch) {
 		Branch oldBranch = branchDao.findById(id);
-
-		if(oldBranch == null) {
-			//TODO exception
-		}
 
 		branch.setId(id);
 		branch.setVersion(oldBranch.getVersion());
@@ -79,22 +62,10 @@ public class BranchServiceImp implements BranchService {
 		branchDao.delete(branch);
 	}
 
-	public int length(Integer firmId, Integer cityId) {
-		Firm firm = null;
-	    if (firmId != null){
-	    	firm = firmDao.findById(firmId);
-		    if (firm == null){
-		    	//TODO exception
-		    }
-	    }
-	    
-	    Locality locality = null;	    
-	    if (cityId != null){
-	    	locality = localityDao.findById(cityId);
-		    if (locality == null){
-		    	//TODO exception
-		    }
-	    }
+	public int length(Integer firmId, Integer localityId) {
+
+	    Firm firm = (firmId == null) ? null : firmDao.findById(firmId);
+	    Locality locality = (localityId == null) ? null : localityDao.findById(localityId);
 	    return branchDao.length(firm, locality);
 
 	}

@@ -1,7 +1,6 @@
 package com.clienteservidor.preciosclaros.service;
 
 import java.util.Collection;
-
 import com.clienteservidor.preciosclaros.model.Department;
 
 public interface DepartmentService extends GenericService<Department> {
