@@ -1,15 +1,16 @@
-#maps {
-	display: none;
-	height: 100%;
-	width: 100%;
-	background-color: #321233;
-}
-
-#map {
-    height: 100%;
-    widht: 100%;
-}
-
+html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 999999999999;
+      }
 .controls {
   margin-top: 10px;
   border: 1px solid transparent;
@@ -50,4 +51,11 @@
   font-family: Roboto;
   font-size: 13px;
   font-weight: 300;
+}
+#target {
+        width: 345px;
+      }
+
+#location-ok {
+/*  margin-left: 15px;*/
 }

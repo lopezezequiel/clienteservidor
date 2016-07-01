@@ -1,0 +1,24 @@
+    <div class="container">
+
+      <form class="form-signin" onsubmit="$service.stopSubmit(event);">
+        <h2 class="form-signin-heading">Inicio de Sesión</h2>
+        
+        <label for="signin-mail" class="sr-only">Email</label>
+        <input type="email" id="signin-mail" name="mail" class="form-control" placeholder="Correo" required autofocus>
+        
+        <label for="signin-password" class="sr-only">Clave</label>
+        <input type="password" id="signin-password" name="password" class="form-control" placeholder="Clave" required>
+        
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Recuerdame
+          </label>
+        </div>
+        
+        <a href="#signup">¿No tenes Cuenta? Registrate</a>
+        <br>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" onclick="$service.signin(this.form)">Iniciar Sesión</button>
+      </form>
+
+    </div> <!-- /container -->

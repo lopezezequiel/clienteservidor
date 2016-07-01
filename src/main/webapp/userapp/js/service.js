@@ -44,7 +44,7 @@ $service.remove = function(target) {
 	$cart.remove(id);
 
 	target.onclick = function() { $service.add(target); }
-	target.src = '/img/icons/plus.png';
+	target.className = 'glyphicon glyphicon-ok';
 }
 
 $service.add = function(target) {
@@ -52,7 +52,7 @@ $service.add = function(target) {
 	$cart.add(id);
 
 	target.onclick = function() { $service.remove(target); }
-	target.src = '/img/icons/minus.png';
+	target.className = 'glyphicon glyphicon-remove';
 }
 
 $service.cart = {}
@@ -64,21 +64,46 @@ $service.cart.remove = function(target) {
 	row.parentElement.removeChild(row);
 }
 
-$service.user = {}
-
-$service.user.setLocation = function() {
-	//Try HTML5 geolocation.
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			var location = {
-				latitude: position.coords.latitude,
-				longitude: position.coords.longitude
-		    };
-			$user.location = location;
-			document.getElementById('location').src = '/img/icons/placeholderok.png';
-		});
-	
-	} else {
-		
-	}
+$user = {}
+$service.setUser = function(user) {
+	$user = user;
+	$views.userOptions.render(
+		document.getElementById('user-options'),
+		$user
+	);
 }
+
+$service.getUser = function(user) {
+	return $user;
+}
+
+$service.signin = function(form) {
+	var data = Bappse.getFormData(form);
+	var auth = 'Basic ' + btoa(data.mail + ':' + data.password);
+	
+	Bappse.GET('/api_v1/auth/signin')
+		.header('Authentication', auth)
+		.success(function(response) {
+			$service.setUser(response.json());
+			Bappse.setHash('carrito');
+		})
+		.error(function(r) {
+			console.log(r);
+		}).ok();
+}
+
+$service.signup = function(form) {
+	var user = Bappse.getFormData(form);
+
+	Bappse.POST('/api_v1/regularUsers')
+		.header('Content-Type', 'application/json')
+		.data(user)
+		.success(function(response) {
+			$service.setUser(response.json());
+			Bappse.setHash('carrito');
+		})
+		.error(function(r) {
+			console.log(r);
+		}).ok();
+}
+

@@ -12,28 +12,13 @@ import com.clienteservidor.preciosclaros.service.UserService;
 @RequestMapping("/api_v1")
 public class UserController extends GenericController<UserService>  {
 
+	@RequestMapping("user")
+	public User getUser() {
+		return service.getUser();
+	}
+
 	@RequestMapping(value="regularUsers", method=RequestMethod.POST)
-	public User persistRegularUser(@RequestBody User user) {
+	public User persist(@RequestBody User user) {
 		return service.persistRegularUser(user);
-	}
-
-	@RequestMapping(value="adminUsers", method=RequestMethod.POST)
-	public User persistAdminUser(@RequestBody User user) {
-		return service.persistAdminUser(user);
-	}
-
-	@RequestMapping(value="rootUsers", method=RequestMethod.POST)
-	public User persistRootUser(@RequestBody User user) {
-		return service.persistRootUser(user);
-	}
-
-	@RequestMapping(value="branchUsers", method=RequestMethod.POST)
-	public User persistBranchUser(@RequestBody User user) {
-		return service.persistBranchUser(user);
-	}
-
-	@RequestMapping("send")
-	public void send() {
-		service.sendMail("lopezezequiel.09@gmail.com", "lopez ezequiel", "Hola Mundo");
 	}
 }

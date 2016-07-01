@@ -12,4 +12,5 @@ public interface UserDao {
     void update(User user);
     void delete(User user);
 	int size(String query);
+	User findByName(String name);
 }

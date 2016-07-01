@@ -1,8 +1,14 @@
 package com.clienteservidor.preciosclaros.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -55,6 +61,9 @@ public class Product extends GenericEntity {
 	
 	@Transient
 	private Double price;
+	
+	@Transient
+	private Set<String> promotions;
 
 	public Product(){}
 
@@ -112,5 +121,13 @@ public class Product extends GenericEntity {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Set<String> getPromotions() {
+		return promotions;
+	}
+
+	public void setPromotions(Set<String> promotions) {
+		this.promotions = promotions;
 	}
 }

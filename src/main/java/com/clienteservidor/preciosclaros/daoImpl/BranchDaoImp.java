@@ -2,6 +2,7 @@ package com.clienteservidor.preciosclaros.daoImpl;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.clienteservidor.preciosclaros.dao.BranchDao;
 import com.clienteservidor.preciosclaros.model.Branch;
 import com.clienteservidor.preciosclaros.model.Locality;
+import com.clienteservidor.preciosclaros.model.Product;
 import com.clienteservidor.preciosclaros.model.Firm;
 
 @Repository("branchDao")
@@ -21,8 +23,8 @@ public class BranchDaoImp extends GenericDaoImpl<Branch> implements BranchDao{
 	}
 
 	@SuppressWarnings("unchecked")
-	public Collection<Branch> findAll(Integer offset, Integer limit, Firm firm,
-			Locality locality, Double latitude, Double longitude) {
+	public Collection<Branch> findAll(Integer offset, Integer limit, Collection<Product> products,
+			Firm firm, Locality locality, Double latitude, Double longitude) {
 		
 		
 		if(latitude != null & longitude != null) {
@@ -65,9 +67,8 @@ public class BranchDaoImp extends GenericDaoImpl<Branch> implements BranchDao{
 				.getResults();
 	}
 
-	public int length(Firm firm, Locality locality) {
+	public int length(Firm firm, Locality locality, Collection<Product> products) {
 		return getQuery().filterEq("firm", firm).filterEq("locality", locality)
 				.getResults().size();
 	}
-
 }

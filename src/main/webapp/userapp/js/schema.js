@@ -225,3 +225,25 @@ $schema.unit = {
         }
     }
 }
+
+$schema.user = {
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "required": false
+        },
+        "mail": {
+            "type": "string",
+            "required": true,
+        },
+        "password": {
+            "type": "string",
+            "required": false
+        },
+        "name": {
+            "type": "string",
+            "required": false
+        }
+    }
+}

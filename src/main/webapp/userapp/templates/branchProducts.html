@@ -1,0 +1,22 @@
+<h1>{{branch.firm.name}}</h1>
+<h3>{{branch.address}}</h3>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Descripción</th>
+        <th>$</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each products}}    
+        <tr>
+            <td><a href="#producto/{{id}}">{{description}}</a></td>
+            <td>{{price}}</td>
+            
+            <td><span class="glyphicon glyphicon-ok" aria-hidden="true"  onclick="$service.add(this);" data-id={{id}}></span></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

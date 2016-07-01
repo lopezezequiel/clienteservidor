@@ -5,4 +5,4 @@ $config.pagination = {
 	itemsByPage: 20
 };
 
-$user = {}
+$config.maxBranches = 10;

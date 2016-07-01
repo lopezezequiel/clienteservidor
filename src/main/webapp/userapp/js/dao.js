@@ -1,15 +1,30 @@
 var DaoFactory = function(schema, url) {
 	
 	var parseResponse = function(response){
-		return (response.success ? response.json(): null);
+		return (response.success ? response.json(): response);
+	}
+	
+	var parseIndex = function(response) {
+
+		if(response.success) {
+			var objects = response.json();
+			var index = {};
+			for(var i=0; i<objects.length; i++) {
+				index[objects[i].id] = objects[i]; 
+			}
+			return index;
+		}
+
+		return response;
 	}
 
 	return {
 		findById: function(id) {
 			return Bappse.GET(url + '/' + id).pre(parseResponse);
 		},
-		findAll: function(filters) {
-			return Bappse.GET(url).data(filters).pre(parseResponse);
+		findAll: function(filters, indexed) {
+			fn = (indexed === true) ? parseIndex : parseResponse;
+			return Bappse.GET(url).data(filters).pre(fn);
 		},
 		count: function(filters) {
 			return Bappse.GET(url + '/length').data(filters).pre(parseResponse);
@@ -54,3 +69,4 @@ $dao.province = DaoFactory($schema.province, '/api_v1/provinces');
 $dao.company = DaoFactory($schema.company, '/api_v1/companies');
 $dao.product = DaoFactory($schema.product, '/api_v1/products');
 $dao.unit = DaoFactory($schema.unit, '/api_v1/units');
+$dao.user = DaoFactory($schema.user, '/api_v1/regularUsers');

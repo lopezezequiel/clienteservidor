@@ -1,7 +1,14 @@
 package com.clienteservidor.preciosclaros.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -15,12 +22,17 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class BranchProduct extends GenericEntity {
 
 	@NotNull
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JsonIgnore
 	private Branch branch;
 
+	@ElementCollection
+	@CollectionTable(name="Promotion", joinColumns=@JoinColumn(name="branchProduct_id"))
+	@Column(name="description")
+	private Set<String> promotions = new HashSet<String>();
+
 	@NotNull
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JsonSerialize(using = ProductToEanSerializer.class)
 	@JsonDeserialize(using = eanToProductDeserializer.class)
 	private Product product;
@@ -67,5 +79,13 @@ public class BranchProduct extends GenericEntity {
 
 	public void setExpired(boolean expired) {
 		this.expired = expired;
+	}
+
+	public Set<String> getPromotions() {
+		return promotions;
+	}
+
+	public void setPromotions(Set<String> promotions) {
+		this.promotions = promotions;
 	}
 }

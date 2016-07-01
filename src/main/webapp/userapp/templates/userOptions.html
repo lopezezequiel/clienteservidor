@@ -1,13 +1,6 @@
-{{#if anonymous}}
-<li><a href="#">Mi Ubicación</a></li>
-<li><a href="#">Configuración</a></li>
-<li role="separator" class="divider"></li>
-<li><a href="#/login">Ingresar</a></li>
+{{#if mail}}
+    <li><a href="#signout">Salir</a></li>
 {{else}}
-<li><a href="#">Mi Ubicación</a></li>
-<li><a href="#">Notificaciones</a></li>
-<li><a href="#">Denunciar</a></li>
-<li><a href="#">Configuración</a></li>
-<li role="separator" class="divider"></li>
-<li><a href="#/logout">Salir</a></li>
+    <li><a href="#signin">Entrar</a></li>    
+    <li><a href="#signup">Registrarse</a></li>    
 {{/if}}

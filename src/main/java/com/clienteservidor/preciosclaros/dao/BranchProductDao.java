@@ -14,4 +14,5 @@ public interface BranchProductDao {
     void update(BranchProduct branchProduct);
     void delete(BranchProduct branchProduct);
 	Collection<BranchProduct> findAll(Integer offset, Integer limit, Branch branch, Collection<Product> products, Boolean expired);
+	BranchProduct findProduct(Branch branch, Product product);
 }

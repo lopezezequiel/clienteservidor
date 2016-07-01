@@ -125,7 +125,7 @@ var Bappse = (function() {
 			}
 
 			if(!$.isArray(config.code[code])) {
-				config.code[code];
+				config.code[code] = [];
 			}
 
 			config.code[code].push(fn);
@@ -694,6 +694,53 @@ var Bappse = (function() {
 			});
 		}
 	}
+	
+	$.HTTP_UNAUTHORIZED = 401;
+	
+	$.setCookie = function(name, value, milliseconds, path) {
+		if(!$.isString(name)) {
+			throw new TypeError('name must be string');
+		}
+
+		if(!$.isString(value)) {
+			throw new TypeError('value must be string');
+		}
+		
+
+		if(!$.isInteger(milliseconds)) {
+			throw new TypeError('milliseconds must be integer');
+		}
+		
+
+		if(path != null && !$.isString(name)) {
+			throw new TypeError('path must be string');
+		}
+		
+	    var date = new Date();
+	    date.setTime(date.getTime() + milliseconds);
+	    document.cookie = name + '=' + value 
+	    	+ '; expires=' + date.toUTCString()
+	    	+ ((path != undefined) ? ('; path=' + path) : '');
+	}
+
+	$.getCookie = function(name) {
+		if(!$.isString(name)) {
+			throw new TypeError('name must be string');
+		}
+		
+		var cookies = document.cookie.split(';');
+		name = name + '=';
+		for(var i=0; i<cookies.length; i++) {
+			cookie = cookies[i].trim();
+			if(cookie.indexOf(name) == 0) {
+				return cookie.substring(name.length);
+			}
+		}
+	}
+	
+	$.deleteCookie = function(name, path) {
+		$.setCookie(name, '', -1, path);
+	}
 
 	$.route = (function() {
 
@@ -709,7 +756,7 @@ var Bappse = (function() {
 		}
 
 		var route = function() {
-			var hash = $.parseURL().hash.replace(/^#/, '');
+			var hash = $.getHash();
 
 			$.each(routes, function(index, route) {
 				tryRoute(hash, route);
@@ -745,6 +792,10 @@ var Bappse = (function() {
 	
 	$.setHash = function(hash) {
 		window.location.hash = hash;
+	}
+	
+	$.getHash = function() {
+		return $.parseURL().hash.replace(/^#/, '');
 	}
 
 	return $;

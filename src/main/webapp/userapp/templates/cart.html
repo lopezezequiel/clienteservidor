@@ -1,10 +1,6 @@
-<form onsubmit="$service.stopSubmit()">
-    <input type="text" class="form-control" id="input-search" onkeypress="$service.search(event)" placeholder="buscar">
-</form>
-
 <h1>Carrito</h1>
-
 {{#if products}}
+<a href="#vaciar-carrito">Vaciar Carrito</a>
 <table class="table">
     <thead>
     <tr>
@@ -16,7 +12,7 @@
         {{#each products}}
         <tr>
             <td><a href="#">{{description}}</a></td>
-            <td><img src="/img/icons/minus.png" class="icon16" onclick="$service.cart.remove(this);" data-id={{id}}></td>
+            <td><span class="glyphicon glyphicon-remove" aria-hidden="true"  onclick="$service.cart.remove(this);" data-id={{id}}></span></td>
         </tr>
         {{/each}}
     </tbody>

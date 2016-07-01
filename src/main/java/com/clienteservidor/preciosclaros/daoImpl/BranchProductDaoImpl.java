@@ -38,4 +38,10 @@ public class BranchProductDaoImpl extends GenericDaoImpl<BranchProduct> implemen
 				.filterEq("expired", expired).getResults().size();
 	}
 
+	@Override
+	public BranchProduct findProduct(Branch branch, Product product) {
+		return (BranchProduct) getQuery().filterEq("branch", branch).filterEq("product", product)
+				.filterEq("expired", false).getResults().get(0);
+	}
+
 }

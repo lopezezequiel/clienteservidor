@@ -9,7 +9,7 @@
         {{#each products}}
         <tr>
             <td>{{description}}</td>
-            <td><img src="/img/icons/plus.png" class="icon16" onclick="$service.add(this);" data-id={{id}}></td>
+            <td><span class="glyphicon glyphicon-ok" aria-hidden="true"  onclick="$service.add(this);" data-id={{id}}></span></td>
         </tr>
         {{/each}}
     </tbody>
