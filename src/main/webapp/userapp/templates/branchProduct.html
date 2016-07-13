@@ -1,0 +1,14 @@
+<h4>Codigo: {{product.ean13}}</h4>
+<h4>Descripción: {{product.description}}</h4>
+<h4>Marca: {{product.brand}}</h4>
+<h4>Precio: {{product.price}}</h4>
+
+{{#if product.promotions}}
+<h4>Promociones</h4>
+{{#each product.promotions}}    
+{{this}}
+<br>
+{{/each}}
+{{else}}
+<h4>No tiene promociones</h4>
+{{/if}}

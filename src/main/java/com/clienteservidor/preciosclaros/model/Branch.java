@@ -3,12 +3,15 @@ package com.clienteservidor.preciosclaros.model;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import com.clienteservidor.preciosclaros.model.User;
 import com.clienteservidor.preciosclaros.serialization.EntityToIdSerializer;
 import com.clienteservidor.preciosclaros.serialization.IdToFirmDeserializer;
 import com.clienteservidor.preciosclaros.serialization.IdToLocalityDeserializer;
+import com.clienteservidor.preciosclaros.serialization.IdToUserDeserializer;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -39,6 +42,11 @@ public class Branch extends GenericEntity {
 
 	@Transient
 	private Double distance;
+
+	@JsonSerialize(using = EntityToIdSerializer.class)
+	@JsonDeserialize(using = IdToUserDeserializer.class)
+	@OneToOne
+	private User admin;
 
 	public Branch(){}
 	
@@ -100,5 +108,13 @@ public class Branch extends GenericEntity {
 
 	public void setDistance(Double distance) {
 		this.distance = distance;
+	}
+
+	public User getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(User admin) {
+		this.admin = admin;
 	}
 }

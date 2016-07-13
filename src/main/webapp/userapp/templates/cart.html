@@ -11,7 +11,7 @@
     <tbody>
         {{#each products}}
         <tr>
-            <td><a href="#">{{description}}</a></td>
+            <td><a href="#productos/{{id}}">{{description}}</a></td>
             <td><span class="glyphicon glyphicon-remove" aria-hidden="true"  onclick="$service.cart.remove(this);" data-id={{id}}></span></td>
         </tr>
         {{/each}}

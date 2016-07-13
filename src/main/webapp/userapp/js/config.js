@@ -1,7 +1,7 @@
 var $config = {};
 
 $config.pagination = {
-	size: 5,
+	size: 4,
 	itemsByPage: 20
 };
 

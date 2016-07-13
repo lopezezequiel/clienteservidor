@@ -2,7 +2,7 @@
   <div class="panel-heading">Usuario</div>
   <div class="panel-body">
     
-<form role="form">
+<form role="form" onsubmit="$service.stopSubmit(event)">
 
     {{#if user.id}}
     <div class="form-group">
@@ -13,17 +13,24 @@
 
     <div class="form-group">
         <label for="user-mail">Mail:</label>
-        <input type="text" class="form-control" id="user-mail" name="mail" value="{{user.mail}}">
+        <input type="text" class="form-control" id="user-mail" name="mail" value="{{user.mail}}" placeholder="Correo" autofocus>
     </div>
 
+	<div class="form-group">
+	    <label for="user-name">Nombre de usuario (Opcional)</label>
+	    <input type="name" id="user-name" name="name" class="form-control" placeholder="Nombre de usuario">
+    </div>
+    
+	{{#unless user.id}}
     <div class="form-group">
         <label for="user-password">Clave:</label>
-        <input type="text" class="form-control" id="user-password" name="password">
+        <input type="password" class="form-control" id="user-password" name="password" placeholder="Clave">
     </div>
+    {{/unless}}
 
     <div class="form-group">
         <label for="user-role">Rol:</label>
-        <select class="form-control" id="user-role" name="role">
+        <select class="form-control" id="user-role" name="userRoles" multiple>
             {{#each roles}}
             <option value={{this}}>{{this}}</option>
             {{/each}}
@@ -33,8 +40,6 @@
     <a class="btn btn-default" href="#users">Cancelar</a>
 
     {{#if user.id}}
-    <button type="button" class="btn btn-default" onclick="$service.user.update(this.form)">Actualizar</button>
-    <button type="button" class="btn btn-default" onclick="$service.user.remove(this.form)">Eliminar</button>
     {{else}}
     <button type="button" class="btn btn-default" onclick="$service.user.persist(this.form)">Guardar</button>
     {{/if}}

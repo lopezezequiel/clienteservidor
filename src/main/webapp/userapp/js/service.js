@@ -31,7 +31,8 @@ $service.stopSubmit = function(event) {
 	return false;
 }
 
-$service.search = function(event) {
+$service.index = {}
+$service.index.search = function(event) {
 	event = event || window.event;
 	if(event.keyCode == 13) {
 		var target = event.target || event.srcElement;
@@ -39,71 +40,115 @@ $service.search = function(event) {
 	}
 }
 
-$service.remove = function(target) {
-	id = parseInt(target.getAttribute('data-id'));
-	$cart.remove(id);
-
-	target.onclick = function() { $service.add(target); }
-	target.className = 'glyphicon glyphicon-ok';
+$service.search = {}
+$service.search.removeFromCart = function(target) {
+	var id = parseInt(target.getAttribute('data-id'));
+	$dao.cart.remove(id)
+	.success(200, function() {
+		target.onclick = function() { $service.search.addToCart(target); }
+		target.className = 'glyphicon glyphicon-ok';
+	})
+	.success(-200, function() {
+		sweetAlert('Se produjo un error');
+	}).error(function() {
+		sweetAlert('Se produjo un error');
+	}).ok();
 }
 
-$service.add = function(target) {
-	id = parseInt(target.getAttribute('data-id'));
-	$cart.add(id);
-
-	target.onclick = function() { $service.remove(target); }
-	target.className = 'glyphicon glyphicon-remove';
+$service.search.addToCart = function(target) {
+	var id = parseInt(target.getAttribute('data-id'));
+	$dao.cart.add(id)
+	.success(200, function() {
+		target.onclick = function() { $service.search.removeFromCart(target); }
+		target.className = 'glyphicon glyphicon-remove';
+	})
+	.success(-200, function() {
+		sweetAlert('Se produjo un error');
+	}).error(function() {
+		sweetAlert('Se produjo un error');
+	}).ok();
 }
 
 $service.cart = {}
 $service.cart.remove = function(target) {
-	id = parseInt(target.getAttribute('data-id'));
-	$cart.remove(id);
-	
-	var row = target.parentElement.parentElement;
-	row.parentElement.removeChild(row);
+	var id = parseInt(target.getAttribute('data-id'));
+	$dao.cart.remove(id)
+	.success(200, function() {
+		var tr = target.parentNode.parentNode;
+		tr.parentNode.removeChild(tr);
+	})
+	.success(-200, function() {
+		sweetAlert('Se produjo un error');
+	}).error(function() {
+		sweetAlert('Se produjo un error');
+	}).ok();
 }
 
-$user = {}
-$service.setUser = function(user) {
-	$user = user;
-	$views.userOptions.render(
-		document.getElementById('user-options'),
-		$user
-	);
-}
+$service.updateUserOptions = function() {
+	$dao.session.getUser()
+	.success(200, function(user) {
+		$views.userOptions.render(
+			document.getElementById('user-options'),
+			user
+		);
 
-$service.getUser = function(user) {
-	return $user;
+		if(Bappse.isIn(user.userRoles, 'ROLE_ADMIN_C1')) {
+			window.location = '/adminapp/index.html';	
+		} else if(Bappse.isIn(user.userRoles, 'ROLE_ADMIN_C2')) {
+			window.location = '/adminapp/index.html';	
+		}
+	})
+	.success(-200, function() {
+		sweetAlert('Se produjo un error');
+	})
+	.error(function() {
+		sweetAlert('Se produjo un error');
+	})
+	.ok();
 }
 
 $service.signin = function(form) {
 	var data = Bappse.getFormData(form);
-	var auth = 'Basic ' + btoa(data.mail + ':' + data.password);
-	
-	Bappse.GET('/api_v1/auth/signin')
-		.header('Authentication', auth)
-		.success(function(response) {
-			$service.setUser(response.json());
-			Bappse.setHash('carrito');
-		})
-		.error(function(r) {
-			console.log(r);
-		}).ok();
+	$dao.session.signin(data.mail, data.password)
+	.success(200, function() {
+		$service.updateUserOptions();
+		Bappse.setHash('carrito');
+	})
+	.success(401, function() {
+		sweetAlert('User is not in the sudoers file');
+	})
+	.success(-200, -401, function() {
+		sweetAlert('Se produjo un error');
+	})
+	.error(function() {
+		sweetAlert('Se produjo un error');
+	})
+	.ok();	
 }
 
 $service.signup = function(form) {
 	var user = Bappse.getFormData(form);
+	console.log(user);
 
-	Bappse.POST('/api_v1/regularUsers')
-		.header('Content-Type', 'application/json')
-		.data(user)
-		.success(function(response) {
-			$service.setUser(response.json());
-			Bappse.setHash('carrito');
-		})
-		.error(function(r) {
-			console.log(r);
-		}).ok();
+	$dao.user.persist(user)
+	.success(200, function() {
+		swal({
+			title: 'Usuario registrado', 
+			text: 'Te enviamos un correo de confirmación',
+			type: 'success',
+			closeOnConfirm: true
+		}, function() {
+			Bappse.setHash('signin');
+		});
+	})
+	.success(409, function(response) {
+		sweeetAlert('El correo ' + user.mail + ' ya se encuentra registrado');
+	})
+	.success(-409, -200, function(response) {
+		sweetAlert('Falló registro');
+	})
+	.error(function() {
+		sweetAlert('Falló registro');
+	})
+	.ok();
 }
-

@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: preciosclaros
 -- ------------------------------------------------------
--- Server version   5.5.49-0+deb8u1
+-- Server version	5.5.49-0+deb8u1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -51,13 +51,16 @@ CREATE TABLE `Branch` (
   `address` varchar(100) DEFAULT NULL,
   `latitude` double DEFAULT NULL,
   `longitude` double DEFAULT NULL,
+  `admin_id` int(11) NOT NULL,
   `firm_id` int(11) DEFAULT NULL,
   `locality_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  KEY `FK_b994rv8pa45y4meh5iljctgl4` (`admin_id`),
   KEY `FK_6ohtrtbb275kuw4hagrm06t84` (`firm_id`),
   KEY `FK_66fva0l5c1k6s7kmsjyqdbxcb` (`locality_id`),
   CONSTRAINT `FK_66fva0l5c1k6s7kmsjyqdbxcb` FOREIGN KEY (`locality_id`) REFERENCES `Locality` (`id`),
-  CONSTRAINT `FK_6ohtrtbb275kuw4hagrm06t84` FOREIGN KEY (`firm_id`) REFERENCES `Firm` (`id`)
+  CONSTRAINT `FK_6ohtrtbb275kuw4hagrm06t84` FOREIGN KEY (`firm_id`) REFERENCES `Firm` (`id`),
+  CONSTRAINT `FK_b994rv8pa45y4meh5iljctgl4` FOREIGN KEY (`admin_id`) REFERENCES `User` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -99,6 +102,32 @@ CREATE TABLE `BranchProduct` (
 LOCK TABLES `BranchProduct` WRITE;
 /*!40000 ALTER TABLE `BranchProduct` DISABLE KEYS */;
 /*!40000 ALTER TABLE `BranchProduct` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Cart`
+--
+
+DROP TABLE IF EXISTS `Cart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Cart` (
+  `user_id` int(11) NOT NULL,
+  `cart_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`cart_id`),
+  UNIQUE KEY `UK_atd4exs30snmxstb48885o3op` (`cart_id`),
+  CONSTRAINT `FK_94tjs0klq3ti3pbnorndv7ecu` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`),
+  CONSTRAINT `FK_atd4exs30snmxstb48885o3op` FOREIGN KEY (`cart_id`) REFERENCES `Product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Cart`
+--
+
+LOCK TABLES `Cart` WRITE;
+/*!40000 ALTER TABLE `Cart` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -296,6 +325,30 @@ LOCK TABLES `Product` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Promotion`
+--
+
+DROP TABLE IF EXISTS `Promotion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Promotion` (
+  `branchProduct_id` int(11) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  KEY `FK_p3a78sgbtvepcutia62v3o00f` (`branchProduct_id`),
+  CONSTRAINT `FK_p3a78sgbtvepcutia62v3o00f` FOREIGN KEY (`branchProduct_id`) REFERENCES `BranchProduct` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Promotion`
+--
+
+LOCK TABLES `Promotion` WRITE;
+/*!40000 ALTER TABLE `Promotion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Promotion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Province`
 --
 
@@ -348,56 +401,57 @@ LOCK TABLES `Unit` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_roles`
+-- Table structure for table `User`
 --
 
-DROP TABLE IF EXISTS `user_roles`;
+DROP TABLE IF EXISTS `User`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_roles` (
-  `user_role_id` int(11) NOT NULL AUTO_INCREMENT,
-  `role` varchar(45) NOT NULL,
-  `username` varchar(45) NOT NULL,
-  PRIMARY KEY (`user_role_id`),
-  UNIQUE KEY `UK_stlxfukw77ov5w1wo1tm3omca` (`role`,`username`),
-  KEY `FK_9ry105icat2dux14oyixybw9l` (`username`),
-  CONSTRAINT `FK_9ry105icat2dux14oyixybw9l` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
+CREATE TABLE `User` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `version` int(11) DEFAULT NULL,
+  `enabled` int(11) NOT NULL,
+  `hashCode` varchar(255) DEFAULT NULL,
+  `mail` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_kcjrru401600vrhfiuwvkilc2` (`mail`),
+  UNIQUE KEY `UK_syftr7gx86fwf7ox7bgvnnta7` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_roles`
+-- Dumping data for table `User`
 --
 
-LOCK TABLES `user_roles` WRITE;
-/*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
+LOCK TABLES `User` WRITE;
+/*!40000 ALTER TABLE `User` DISABLE KEYS */;
+/*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `users`
+-- Table structure for table `UserRole`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `UserRole`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `username` varchar(45) NOT NULL,
-  `id` int(11) NOT NULL,
-  `version` int(11) DEFAULT NULL,
-  `enabled` bit(1) NOT NULL,
-  `password` varchar(60) NOT NULL,
-  PRIMARY KEY (`username`)
+CREATE TABLE `UserRole` (
+  `user_id` int(11) NOT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  KEY `FK_hyddjyserbkrnpbveirrw7phm` (`user_id`),
+  CONSTRAINT `FK_hyddjyserbkrnpbveirrw7phm` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `UserRole`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `UserRole` WRITE;
+/*!40000 ALTER TABLE `UserRole` DISABLE KEYS */;
+/*!40000 ALTER TABLE `UserRole` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -409,4 +463,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-19 19:32:31
+-- Dump completed on 2016-07-12  5:14:37

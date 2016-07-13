@@ -42,13 +42,8 @@ public class ProductServiceImp implements ProductService {
 		return productDao.persist(product);
 	}
 
-	public void update(int id,Product product) {
-		Product oldProduct = productDao.findById(id);
-		product.setId(id);
-		product.setVersion(oldProduct.getVersion());
-		MyBeanUtils.copyProperties(product, oldProduct);
-
-		productDao.update(oldProduct);
+	public void update(Product product) {
+		productDao.update(product);
 	}
 
 	public void delete(Product product) {

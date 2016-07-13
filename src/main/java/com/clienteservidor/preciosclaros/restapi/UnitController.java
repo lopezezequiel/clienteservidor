@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clienteservidor.preciosclaros.model.Unit;
-import com.clienteservidor.preciosclaros.restapi.responsestatus.ResourceNotFoundException;
 import com.clienteservidor.preciosclaros.service.UnitService;
 
 @RestController
@@ -30,20 +29,12 @@ public class UnitController extends GenericController<UnitService>{
 	public Unit findById(@PathVariable("id") int id) {
         Unit unit = service.findById(id);
 
-        if(unit == null) {
-        	throw new ResourceNotFoundException();
-        }
-
         return unit;
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void deleteById(@PathVariable("id") int id){
         Unit unit = service.findById(id);
-
-        if(unit == null) {
-        	throw new ResourceNotFoundException();
-        }
 
         service.delete(unit);
 	}
@@ -54,9 +45,9 @@ public class UnitController extends GenericController<UnitService>{
         return unit;
 	}
 
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Unit update(@PathVariable("id") int id, @RequestBody Unit unit){
-        service.update(id, unit);
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public Unit update(@RequestBody Unit unit){
+        service.update(unit);
         return unit;
 	}
 	

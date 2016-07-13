@@ -240,6 +240,13 @@ $schema.user = {
         "password": {
             "type": "string",
             "required": false
+        },
+        "roles": {
+            "type": "array",
+            "required": false,
+            "items": {
+                "type": "string"
+            },
         }
     }
 }

@@ -1,6 +1,12 @@
 {{#if mail}}
-    <li><a href="#signout">Salir</a></li>
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{mail}}<span class="caret"></span></a>
+   	<ul class="dropdown-menu">
+	    <li><a href="#signout">Salir</a></li>
+  	</ul>
 {{else}}
-    <li><a href="#signin">Entrar</a></li>    
-    <li><a href="#signup">Registrarse</a></li>    
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi Cuenta<span class="caret"></span></a>
+   	<ul class="dropdown-menu">
+	    <li><a href="#signin">Entrar</a></li>    
+	    <li><a href="#signup">Registrarse</a></li>
+  	</ul>
 {{/if}}

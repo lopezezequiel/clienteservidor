@@ -1,3 +1,10 @@
+Handlebars.registerHelper('ifIn', function(elem, list, options) {
+  if(list.indexOf(elem) > -1) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
 var app = document.getElementById('app');
 
 
@@ -5,7 +12,17 @@ var app = document.getElementById('app');
  * INDEX
  */
 Bappse.route(/^$/, function() {
-	$views.index.render(app);
+	$dao.session.getUser()
+	.success(200, function(user) {
+		$views.index.render(app, {user: user});
+	})
+	.success(-200, function() {
+		sweetAlert('Se produjo un error. Por favor, recargue la página');
+	})
+	.error(function() {
+		sweetAlert('Se produjo un error. Por favor, recargue la página');
+	})
+	.ok();
 });
 
 /*
@@ -50,7 +67,7 @@ Bappse.route(/^categories\/(\d+)$/, function(id) {
 });
 
 Bappse.route(/^categories\/new$/, function() {
-	$dao.category.findAll().success(function(categories) {
+	$dao.category.findAll().success(200, function(categories) {
 		$views.category.render(
 			app, {
 				category: {},
@@ -65,7 +82,7 @@ Bappse.route(/^categories\/new$/, function() {
  */
 Bappse.route(/^provinces$/, function() {
 	
-	$dao.province.findAll().success(function(provinces) {
+	$dao.province.findAll().success(200, function(provinces) {
 		$views.provinces.render(
 			app,
 			{ provinces: provinces }
@@ -74,7 +91,7 @@ Bappse.route(/^provinces$/, function() {
 });
 
 Bappse.route(/^provinces\/(\d+)$/, function(id) {
-	$dao.province.findById(parseInt(id)).success(function(province) {
+	$dao.province.findById(parseInt(id)).success(200, function(province) {
 		$views.province.render(
 			app, 
 			{ province: province }
@@ -93,7 +110,7 @@ Bappse.route(/^provinces\/new$/, function() {
  * CRUD Unit
  */
 Bappse.route(/^units$/, function() {
-	$dao.unit.findAll().success(function(units) {
+	$dao.unit.findAll().success(200, function(units) {
 		$views.units.render(
 			app,
 			{ units: units }
@@ -102,7 +119,7 @@ Bappse.route(/^units$/, function() {
 });
 
 Bappse.route(/^units\/(\d+)$/, function(id) {
-	$dao.unit.findById(parseInt(id)).success(function(unit) {
+	$dao.unit.findById(parseInt(id)).success(200, function(unit) {
 		$views.unit.render(
 			app, 
 			{ unit: unit }
@@ -122,6 +139,7 @@ Bappse.route(/^units\/new$/, function() {
  */
 Bappse.route(/^products(?:\/page([0-9]+))?$/, function(page) {
 	page = parseInt(page || 0);
+
 	Bappse.AjaxQueue(
 		$dao.product.findAll({
 			offset: page * $config.pagination.itemsByPage,
@@ -214,7 +232,7 @@ Bappse.route(/^localities\/(\d+)$/, function(id) {
 });
 
 Bappse.route(/^localities\/new$/, function() {
-	$dao.province.findAll().success(function(provinces) {
+	$dao.province.findAll().success(200, function(provinces) {
 		$views.locality.render(
 			app, { 
 				locality: {},
@@ -265,7 +283,7 @@ Bappse.route(/^departments\/(\d+)$/, function(id) {
 });
 
 Bappse.route(/^departments\/new$/, function() {
-	$dao.province.findAll().success(function(provinces) {
+	$dao.province.findAll().success(200, function(provinces) {
 		$views.department.render(
 			app, { 
 				department: {},
@@ -279,7 +297,7 @@ Bappse.route(/^departments\/new$/, function() {
  * CRUD Company
  */
 Bappse.route(/^companies$/, function() {
-	$dao.company.findAll().success(function(companies) {
+	$dao.company.findAll().success(200, function(companies) {
 		$views.companies.render(
 			app,
 			{ companies: companies }
@@ -288,7 +306,7 @@ Bappse.route(/^companies$/, function() {
 });
 
 Bappse.route(/^companies\/(\d+)$/, function(id) {
-	$dao.company.findById(parseInt(id)).success(function(company) {
+	$dao.company.findById(parseInt(id)).success(200, function(company) {
 		$views.company.render(
 			app, 
 			{ company: company }
@@ -342,7 +360,7 @@ Bappse.route(/^firms\/(\d+)$/, function(id) {
 });
 
 Bappse.route(/^firms\/new$/, function() {
-	$dao.company.findAll().success(function(companies) {
+	$dao.company.findAll().success(200, function(companies) {
 		$views.firm.render(
 			app, {
 				firm: {},
@@ -381,13 +399,15 @@ Bappse.route(/^branches\/(\d+)$/, function(id) {
 	Bappse.AjaxQueue(
 		$dao.branch.findById(parseInt(id)),
 		$dao.company.findAll(),
-		$dao.province.findAll()
-	).success(function(branch, companies, provinces) {
+		$dao.province.findAll(),
+		$dao.user.findAll()
+	).success(function(branch, companies, provinces, users) {
 		$views.branch.render(
 			app, {
 				branch: branch,
 				companies: companies,
-				provinces: provinces
+				provinces: provinces,
+				users: users
 		});
 	}).ok();
 });
@@ -395,22 +415,26 @@ Bappse.route(/^branches\/(\d+)$/, function(id) {
 Bappse.route(/^branches\/new$/, function() {
 	Bappse.AjaxQueue(
 			$dao.company.findAll(),
-			$dao.province.findAll()
-		).success(function(companies, provinces) {
+			$dao.province.findAll(),
+			$dao.user.findAll()
+	)
+	.success(function(companies, provinces, users) {
 			$views.branch.render(
 				app, {
 					branch: {},
 					companies: companies,
-					provinces: provinces
+					provinces: provinces,
+					users: users
 			});
-		}).ok();
+	})
+	.ok();
 });
 
 
 /*
  * CRUD User
  */
-Bappse.route(/^users(?:\/page([0-9]+))?$/, function(page) {
+ Bappse.route(/^users(?:\/page([0-9]+))?$/, function(page) {
 	page = parseInt(page || 0);
 	Bappse.AjaxQueue(
 		$dao.user.findAll({
@@ -452,5 +476,5 @@ Bappse.route(/^users\/new$/, function() {
 					user: {},
 					roles: roles
 			});
-		}).ok();
+	}).ok();
 });

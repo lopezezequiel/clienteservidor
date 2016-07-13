@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.clienteservidor.preciosclaros.beanutils.MyBeanUtils;
 import com.clienteservidor.preciosclaros.dao.CategoryDao;
 import com.clienteservidor.preciosclaros.model.Category;
 import com.clienteservidor.preciosclaros.service.CategoryService;
@@ -35,14 +34,8 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDao.persist(category);
 	}
 
-	public void update(int id, Category category) {
-		Category oldCategory = categoryDao.findById(id);
-
-		category.setId(id);
-		category.setVersion(oldCategory.getVersion());
-		MyBeanUtils.copyProperties(category, oldCategory);
-
-		categoryDao.update(oldCategory);
+	public void update(Category category) {
+		categoryDao.update(category);
 	}
 
 

@@ -2,7 +2,7 @@
   <div class="panel-heading">Bandera</div>
   <div class="panel-body">
     
-<form role="form">
+<form role="form" onsubmit="$service.stopSubmit(event)">
 
     {{#if firm.id}}
     <div class="form-group">

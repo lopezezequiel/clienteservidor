@@ -7,6 +7,11 @@
 
   <!-- Entities -->
   <ul class="list-group">
+  	{{#ifIn 'ROLE_ADMIN_C2' user.userRoles}}
+    <li class="list-group-item"><a href="#users">Usuarios</a></li>
+  	{{/ifIn}}
+  	
+  	{{#ifIn 'ROLE_ADMIN_C1' user.userRoles}}
     <li class="list-group-item"><a href="#categories">Categorías</a></li>
     <li class="list-group-item"><a href="#units">Unidades</a></li>
     <li class="list-group-item"><a href="#provinces">Provincias</a></li>
@@ -16,5 +21,6 @@
     <li class="list-group-item"><a href="#companies">Compañias</a></li>
     <li class="list-group-item"><a href="#branches">Sucursales</a></li>
     <li class="list-group-item"><a href="#firms">Banderas</a></li>
+  	{{/ifIn}}
   </ul>
 </div>

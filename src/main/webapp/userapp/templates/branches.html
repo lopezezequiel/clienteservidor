@@ -16,12 +16,7 @@
         {{/each}}
     </tbody>
 </table>
+
 <div class="text-center">
-    <ul class="pagination">
-        <li><a href="#sucursales/page{{pagination.firstPage}}">&laquo;</a></li>
-        {{#each pagination.pages}}
-        <li {{#if active}}  class="active"{{/if}}><a href="#sucursales/page{{page}}">{{page}}</a></li>
-        {{/each}}
-        <li><a href="#sucursales/page{{pagination.lastPage}}">&raquo;</a></li>
-    </ul>
+    {{{pagination}}}
 </div>

@@ -2,7 +2,7 @@
   <div class="panel-heading">Departamento</div>
   <div class="panel-body">
     
-<form role="form">
+<form role="form" onsubmit="$service.stopSubmit(event)">
 
     {{#if department.id}}
     <div class="form-group">

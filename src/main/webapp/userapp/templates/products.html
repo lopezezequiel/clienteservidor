@@ -1,0 +1,23 @@
+{{#if products}}
+<table class="table">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td><a href="#productos/{{id}}">{{description}}</a></td>
+            <td><span class="glyphicon glyphicon-ok" aria-hidden="true"  onclick="$service.search.addToCart(this);" data-id={{id}}></span></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<div class="text-center">
+    {{pagination}}
+</div>
+{{else}}
+	<h3>No hay productos de esta categoría</h3>	
+{{/if}}

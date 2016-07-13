@@ -30,7 +30,7 @@ public class BranchProduct extends GenericEntity {
 	@CollectionTable(name="Promotion", joinColumns=@JoinColumn(name="branchProduct_id"))
 	@Column(name="description")
 	private Set<String> promotions = new HashSet<String>();
-
+	
 	@NotNull
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JsonSerialize(using = ProductToEanSerializer.class)
@@ -45,7 +45,7 @@ public class BranchProduct extends GenericEntity {
 	private boolean expired;
 
 	@JsonIgnore
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	

@@ -3,6 +3,7 @@
 
 <a href="#sucursales/{{branch.id}}/productos">Ver todos los Productos de esta Sucursal</a>
 {{#if products}}
+<h3>Carrito</h3>
 <table class="table">
     <thead>
     <tr>
@@ -12,9 +13,8 @@
     </thead>
     <tbody>
         {{#each products}}    
-        <tr>
-            <td><a href="#producto/{{id}}">{{description}}</a></td>
-            <td>{{price}}</td>
+            <td><a href="{{#if price}}#sucursales/{{../branch.id}}/productos/{{id}}{{else}}#productos/{{id}}{{/if}}">{{description}}</a></td>
+            <td>{{#if price}}{{price}}{{else}}No tiene{{/if}}</td>
         </tr>
         {{/each}}
     </tbody>

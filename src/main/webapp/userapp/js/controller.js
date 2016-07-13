@@ -1,50 +1,51 @@
-/*
- * Cart
- */
-
 var app = document.getElementById('app');
-var $cart = (function() {
 
-	var products = {}
 
-	return {
-		add: function(id) {
-			$dao.product.findById(id).success(function(product) {
-				products[product.id] = product;
-			}).ok();
-		},
-	
-		remove: function(id) {
-			if(id in products) {
-				delete products[id];
-			}
-		},
+Bappse.route(/^verify-(.*)$/, function(key) {
+	Bappse.GET('/api_v1/enable')
+	.data({key: key})
+	.success(function(response) {
 		
-		getAll: function() {
-			var p = {};
-			for(key in products) {
-				p[key] = products[key];
-			}
-
-			return p;
-		},
-
-		empty: function() {
-			products = {};
+		var data = {
+			message: 'Su cuenta ha sido verificada correctamente. <a href="/userapp/index.html#signin">Ir a la página de inicio de sesión</a>',
 		}
-	}
-})();
+		
+		if(response.code != 200) {
+			
+			data = {
+				message: 'Código inválido.'
+			}
+		}
+		
+		$views.verify.render(
+			app,
+			data
+		);
+	})
+	.error(function() {
+		sweetAlert('Se produjo un error');
+		Bappse.setHash('carrito');
+	})
+	.ok();
+});
 
-/*
- * Routing
- */
 
 Bappse.route(/^ubicacion$/, function() {
+	if(!$map.ready()) {
+		return;
+	}
 	$map.show();
 });
 
 Bappse.route(/^carrito$/, function() {
-	$views.cart.render(app, {products: $cart.getAll()});
+	$dao.cart.getAll()
+	.success(200, function(products) {
+		$views.cart.render(
+			app,
+			{products: products}
+		);
+	})
+	.ok();
 });
 
 Bappse.route(/^buscar(?:\/page([0-9]+))?\?q=(.*)$/, function(page, query) {
@@ -62,21 +63,34 @@ Bappse.route(/^buscar(?:\/page([0-9]+))?\?q=(.*)$/, function(page, query) {
 			app,{
 				products: products,
 				pagination: $service.pagination(
-					page,
-					Math.ceil(length/$config.pagination.itemsByPage),
-					$config.pagination.size
+						page,
+						Math.ceil(length/$config.pagination.itemsByPage),
+						$config.pagination.size
 				),
 				q: query
 			}
 		);
-	}).ok();
+	})
+	.error(function() {
+		sweetAlert('Se produjo un error');
+	})
+	.ok();
 
 });
 
 
 Bappse.route(/^vaciar-carrito$/, function() {
-	$cart.empty();
-	Bappse.setHash('carrito');
+	$dao.cart.empty()
+	.success(200, function() {
+		Bappse.setHash('carrito');
+	})
+	.success(-200, function() {
+		alert('Se produjo un error');
+	})
+	.error(function() {
+		alert('Se produjo un error');
+	})
+	.ok();
 });
 
 Bappse.route(/^signin$/, function() {
@@ -88,8 +102,18 @@ Bappse.route(/^signup$/, function() {
 });
 
 Bappse.route(/^signout$/, function() {
-	Bappse.deleteCookie('JSESSIONID', '/');
-	Bappse.setHash('carrito');
+	$dao.session.signout()
+	.success(200, function() {
+		window.location = '/userapp/index.html';
+		//$service.updateUserOptions();
+	})
+	.success(-200, function() {
+		alert('Se produjo un error');
+	})
+	.error(function() {
+		alert('Se produjo un error');
+	})
+	.ok();
 });
 
 Bappse.route(/^sucursales(?:\/page([0-9]+))?$/, function(page) {
@@ -101,8 +125,8 @@ Bappse.route(/^sucursales(?:\/page([0-9]+))?$/, function(page) {
 	}
 		
 	if (location) {
-		filter['latitude'] = $map.getPosition().lat();
-		filter['longitude'] = $map.getPosition().lng();
+		filter['latitude'] = $map.getPosition().lat;
+		filter['longitude'] = $map.getPosition().lng;
 	}
 
 	Bappse.AjaxQueue(
@@ -116,81 +140,131 @@ Bappse.route(/^sucursales(?:\/page([0-9]+))?$/, function(page) {
 
 		$views.branches.render(app, {
 			branches: branches,
-			pagination: $service.pagination(
-				page,
-				Math.ceil(length/$config.pagination.itemsByPage),
-				$config.pagination.size
-			)
+			pagination: $widgets.html($widgets.pagination(
+					page,
+					Math.ceil(length/$config.pagination.itemsByPage),
+					$config.pagination.size
+				))
 		});
+	}).error(function(){
+		sweetAlert('Se produjo un error');
 	}).ok();
 });
 
 Bappse.route(/^sucursales\/(\d+)$/, function(id) {
-	if($cart.getAll().length == 0){
-		Bappse.setHash('carrito');
-	}
-
-	var ajax = Bappse.AjaxQueue(
-		$dao.branch.findById(parseInt(id)),
-		Bappse.GET('/api_v1/branches/'+id+'/products?ids='+Object.keys($cart.getAll()).join(','))
-			.pre(function(response) {
-				if(response.success) {
-					var products = response.json();
-					var index = {};
-					for(var i=0; i<products.length; i++) {
-						index[products[i].id] = products[i];
-					}
-					return index;
-				}
-				return response;
-	}))
-
-	if(Object.keys($cart.getAll()).length == 0) {
-		ajax = $dao.branch.findById(parseInt(id));
-	}
 	
-	ajax.success(function(branch, products) {
+	Bappse.AjaxQueue(
+		$dao.cart.getAll(true),
+		$dao.branch.findById(parseInt(id))
+	)
+	.success(function(cartProducts, branch) {
+
+		var queue = [];
 		
-		$dao.firm.findById(branch.firm).success(function(firm) {
+		var ajax = Bappse.AjaxQueue(
+			$dao.firm.findById(branch.firm),
+			$dao.branchProduct.getAll(id, {
+				ids: Object.keys(cartProducts).join(',')
+			}, true)
+		);
+
+		if(Object.keys(cartProducts) == 0) {
+			ajax = $dao.firm.findById(branch.firm);
+		}
+
+		ajax
+		.success(function(firm, branchProducts) {
 			branch.firm = firm;
-			var cartProducts = $cart.getAll();
-			if(!products) {
+
+			if(Object.keys(cartProducts).length != 0) {
 				for(id in cartProducts) {
-					if(!(id in products)) {
-						products[id] = cartProducts[id];
+					if(!(id in branchProducts)) {
+						branchProducts[id] = cartProducts[id];
 					}
 				}
 			}
-			
+
 			$views.branch.render(app, {
 				branch: branch,
-				products: products
+				products: branchProducts
 			});
-		}).ok();
-	}).ok();
+		})
+		.error(function() {
+			sweetAlert('Se produjo un error');
+		})
+		.ok();
+
+	})
+	.error(function() {
+		sweetAlert('Se produjo un error');
+	})
+	.ok();
+});
+
+Bappse.route(/^categorias(?:\/(\d+))?$/, function(id) {
+	id = id || 1;
+
+	Bappse.AjaxQueue(
+		$dao.category.findById(id),
+		$dao.category.findAll({parent: id})
+	)
+	.success(function(category, categories) {
+		$views.categories.render(app, { 
+			category: category,
+			categories: categories
+		});
+	})
+	.error(function(categories) {
+		sweetAlert('Se produjo un error');
+	})
+	.ok();
+});
+
+Bappse.route(/^categorias\/(\d+)\/productos$/, function(id) {
+	$dao.product.findAll({
+		category: parseInt(id)
+	})
+	.success(200, function(products) {
+		$views.products.render(
+			app,{ products: products }
+		);
+	})
+	.success(-200, function() {
+		sweetAlert('Se produjo un error');
+	})
+	.error(function() {
+		sweetAlert('Se produjo un error');
+	})
+	.ok();
 });
 
 Bappse.route(/^sucursales\/(\d+)\/productos$/, function(id) {
-	if($cart.getAll().length == 0){
-		Bappse.setHash('carrito');
-	}
 	Bappse.AjaxQueue(
 		$dao.branch.findById(parseInt(id)),
-		Bappse.GET('/api_v1/branches/'+id+'/products')
-			.pre(function(response) {
-				if(response.success) {
-					return response.json();
-				}
-				return response;
-			})
+		$dao.branchProduct.getAll(parseInt(id))
 	).success(function(branch, products) {
-		$dao.firm.findById(branch.firm).success(function(firm) {
-			branch.firm = firm;
-			$views.branchProducts.render(app, {
-				branch: branch,
-				products: products
-			});
-		}).ok();
+		$views.branchProducts.render(app, {
+			branch: branch,
+			products: products
+		});
+	}).ok();
+});
+
+Bappse.route(/^sucursales\/(\d+)\/productos\/(\d+)$/, function(id, idp) {
+	$dao.branchProduct.getAll(id, {ids: [parseInt(idp)]})
+	.success(200, function(products) {
+		$views.branchProduct.render(app, {
+			product: products[0]
+		});
+	}).ok();
+});
+
+Bappse.route(/^productos\/(\d+)$/, function(id) {
+	$dao.product.findById(parseInt(id))
+	.success(200, function(product) {
+		$views.product.render(app, {
+			product: product
+		});
 	}).ok();
 });
 
@@ -198,14 +272,9 @@ Bappse.route(/^sucursales\/(\d+)\/productos$/, function(id) {
  * Init
  */
 
-Bappse.GET('/api_v1/user')
-	.success(function(response) {
-		$service.setUser(response.json());
-	})
-	.error(function(response) {
-		$service.setUser({});
-	}).ok();
 
 if(Bappse.getHash() == '') {
 	Bappse.setHash('#carrito');	
 }
+
+$service.updateUserOptions();

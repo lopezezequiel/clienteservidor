@@ -1,7 +1,10 @@
+<h3>{{category.name}}</h3>
+<h5><a href="#categorias/{{category.id}}/productos">Ver todos los productos</a></h5>
+
 <div class="row">
 	{{#each categories}}
 	<div class="col-xs-6 col-md-3">
-		<a href="#/categorias/{{id}}" class="thumbnail">
+		<a href="#categorias/{{id}}" class="thumbnail">
 			{{#if image}}
 			<img class="image-64x64" src="/img/categories/{{image}}" alt="{{name}}">
 			{{else}}

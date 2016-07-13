@@ -12,10 +12,10 @@
     <tbody>
         {{#each products}}    
         <tr>
-            <td><a href="#producto/{{id}}">{{description}}</a></td>
+            <td><a href="#sucursales/{{../branch.id}}/productos/{{id}}">{{description}}</a></td>
             <td>{{price}}</td>
             
-            <td><span class="glyphicon glyphicon-ok" aria-hidden="true"  onclick="$service.add(this);" data-id={{id}}></span></td>
+            <td><span class="glyphicon glyphicon-ok" aria-hidden="true"  onclick="$service.search.addToCart(this);" data-id={{id}}></span></td>
         </tr>
         {{/each}}
     </tbody>

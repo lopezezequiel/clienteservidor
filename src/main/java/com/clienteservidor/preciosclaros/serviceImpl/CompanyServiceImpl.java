@@ -32,19 +32,9 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyDao.persist(company);
 	}
 
-	public void update(int id, Company company) {
+	public void update(Company company) {
 		afipDao.findByCuit(company.getCuit());
-		Company oldCompany = companyDao.findById(id);
-
-		if(oldCompany == null) {
-			//TODO exception
-		}
-
-		company.setId(id);
-		company.setVersion(oldCompany.getVersion());
-		MyBeanUtils.copyProperties(company, oldCompany);
-
-		companyDao.update(oldCompany);
+		companyDao.update(company);
 	}
 
 	public void delete(Company company) {

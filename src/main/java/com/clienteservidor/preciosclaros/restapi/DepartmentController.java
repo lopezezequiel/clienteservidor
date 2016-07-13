@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clienteservidor.preciosclaros.model.Department;
-import com.clienteservidor.preciosclaros.restapi.responsestatus.ResourceNotFoundException;
 import com.clienteservidor.preciosclaros.service.DepartmentService;
 
 @RestController
@@ -43,20 +42,12 @@ public class DepartmentController extends GenericController<DepartmentService> {
 	public Department getDepartment(@PathVariable("id") int id) {
 		Department department = service.findById(id);
 
-        if(department == null) {
-        	throw new ResourceNotFoundException();
-        }
-
         return department;
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void deleteById(@PathVariable("id") int id){
         Department department = service.findById(id);
-
-        if(department == null) {
-        	throw new ResourceNotFoundException();
-        }
 
         service.delete(department);
 	}
@@ -67,9 +58,9 @@ public class DepartmentController extends GenericController<DepartmentService> {
         return department;
 	}
 	
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Department update(@PathVariable("id") int id, @RequestBody Department department){
-        service.update(id, department);
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public Department update(@RequestBody Department department){
+        service.update(department);
         return department;
 	}
 

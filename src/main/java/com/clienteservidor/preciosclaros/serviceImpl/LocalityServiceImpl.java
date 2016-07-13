@@ -35,13 +35,8 @@ public class LocalityServiceImpl implements LocalityService {
 		return localityDao.persist(t);
 	}
 
-	public void update(int id, Locality locality) {
-		Locality oldCity = localityDao.findById(id);
-		locality.setId(id);
-		locality.setVersion(oldCity.getVersion());
-		MyBeanUtils.copyProperties(locality, oldCity);
-
-		localityDao.update(oldCity);
+	public void update(Locality locality) {
+		localityDao.update(locality);
 	}
 
 	public void delete(Locality locality) {

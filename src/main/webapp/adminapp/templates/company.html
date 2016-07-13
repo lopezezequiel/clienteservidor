@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">Compañia</div>
     <div class="panel-body">
-        <form role="form">
+        <form role="form" onsubmit="$service.stopSubmit(event)">
         
             {{#if company.id}}
             <div class="form-group">

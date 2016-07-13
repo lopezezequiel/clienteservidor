@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.clienteservidor.preciosclaros.dao.UserDao;
+import com.clienteservidor.preciosclaros.model.Session;
 import com.clienteservidor.preciosclaros.model.User;
 
 @Service("securityUserService")
@@ -25,11 +26,15 @@ public class SecurityUserService implements UserDetailsService {
 	@Autowired
 	private UserDao userDao;
 	
+	@Autowired
+	private Session session;
+	
 
 	public UserDetails loadUserByUsername(final String mail) throws UsernameNotFoundException {
 
 		try {
 			User user = userDao.findByMail(mail);
+			session.setUser(user);
 			List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRoles());
 			return buildUserForAuthentication(user, authorities);	
 		} catch(Exception e) {

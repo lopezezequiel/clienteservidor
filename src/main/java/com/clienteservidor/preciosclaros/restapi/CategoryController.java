@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clienteservidor.preciosclaros.model.Category;
-import com.clienteservidor.preciosclaros.restapi.responsestatus.ResourceConflictException;
-import com.clienteservidor.preciosclaros.restapi.responsestatus.ResourceNotFoundException;
 import com.clienteservidor.preciosclaros.service.CategoryService;
 
 @RestController
@@ -40,10 +38,6 @@ public class CategoryController extends GenericController<CategoryService>{
 	public Category findById(@PathVariable("id") int id) {
         Category category = service.findById(id);
 
-        if(category == null) {
-        	throw new ResourceNotFoundException();
-        }
-
         return category;
 	}
 
@@ -51,15 +45,7 @@ public class CategoryController extends GenericController<CategoryService>{
 	public void deleteById(@PathVariable("id") int id){
         Category category = service.findById(id);
 
-        if(category == null) {
-        	throw new ResourceNotFoundException();
-        }
-
-        try {
-        	service.delete(category);
-        } catch(Exception e) {
-        	throw new ResourceConflictException();
-        }
+       	service.delete(category);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
@@ -68,9 +54,10 @@ public class CategoryController extends GenericController<CategoryService>{
         return category;
 	}
 
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Category update(@PathVariable("id") int id, @RequestBody Category category){
-        service.update(id, category);
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public Category update(@RequestBody Category category){
+		System.out.println(category.getId());
+        service.update(category);
         return category;
 	}
 	

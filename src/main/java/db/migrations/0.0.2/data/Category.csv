@@ -14,12 +14,12 @@ id,name,parent,image
 18006002,"After Shave",18007,
 5002,Aguas,6,
 5003,"Aguas Saborizadas",6,
-18003002,Alcohol,18004,
+18003002,Alcohol,18004,"alcohol.png"
 14001002,Alfajores,14002,
 14002,Alfajores,15,
 18003003,"Algodón / Hisopos",18004,
 3003,"Alimentación Infantil",4,
-2,"Alimentos Congelados",1,
+2,"Alimentos Congelados",1,"congelados.png"
 1001002,"Alimentos de Soja",1002,
 1002,"Alimentos de Soja",2,
 3,"Almacén",1,
@@ -248,7 +248,7 @@ id,name,parent,image
 12001007,"Limón",12002,
 5007004,Listos,5008,
 16002008,Lustramuebles,16003,
-16,"Lácteos",1,
+16,"Lácteos",1,"lacteos.png"
 18005004,"Líquidos",18006,
 2015006,Madalenas,2016,
 4008003,Malbec,4009,

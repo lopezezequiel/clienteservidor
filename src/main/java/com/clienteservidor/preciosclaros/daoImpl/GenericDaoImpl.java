@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.clienteservidor.preciosclaros.Exceptions.EntityNotFoundException;
+import com.clienteservidor.preciosclaros.beanutils.MyBeanUtils;
 import com.clienteservidor.preciosclaros.beanutils.Query;
 import com.clienteservidor.preciosclaros.model.GenericEntity;
  
@@ -38,8 +39,15 @@ public abstract class GenericDaoImpl<T extends GenericEntity> {
         return entity;
     }
  
-    public void update(T entity) {
-        getSession().update(entity);
+    public void update(T e) {
+    	/*
+    	Integer version = findById(e.getId()).getVersion();
+    	e.setVersion(version);
+    	getSession().merge(e);
+    	*/
+    	T entity = findById(e.getId());
+    	MyBeanUtils.copyProperties(e, entity);
+    	getSession().update(entity);
     }
  
     public void delete(T entity) {

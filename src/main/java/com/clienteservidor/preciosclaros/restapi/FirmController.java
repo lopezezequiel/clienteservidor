@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clienteservidor.preciosclaros.model.Firm;
-import com.clienteservidor.preciosclaros.restapi.responsestatus.ResourceNotFoundException;
 import com.clienteservidor.preciosclaros.service.FirmService;
 
 @RestController
@@ -41,20 +40,12 @@ public class FirmController extends GenericController<FirmService> {
 	public Firm getCategory(@PathVariable("id") int id) {
 		Firm firm = service.findById(id);
 
-        if(firm == null) {
-        	throw new ResourceNotFoundException();
-        }
-
         return firm;
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void deleteById(@PathVariable("id") int id){
         Firm firm = service.findById(id);
-
-        if(firm == null) {
-        	throw new ResourceNotFoundException();
-        }
 
         service.delete(firm);
 	}
@@ -65,9 +56,9 @@ public class FirmController extends GenericController<FirmService> {
         return firm;
 	}
 	
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Firm update(@PathVariable("id") int id, @RequestBody Firm firm){
-        service.update(id, firm);
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public Firm update(@RequestBody Firm firm){
+        service.update(firm);
         return firm;
 	}
 

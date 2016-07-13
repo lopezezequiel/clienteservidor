@@ -32,14 +32,8 @@ public class FirmServiceImpl implements FirmService {
 		return firmDao.persist(firm);
 	}
 
-	public void update(int id, Firm firm) {
-		Firm oldFirm = firmDao.findById(id);
-
-		firm.setId(id);
-		firm.setVersion(oldFirm.getVersion());
-		MyBeanUtils.copyProperties(firm, oldFirm);
-
-		firmDao.update(oldFirm);
+	public void update(Firm firm) {
+		firmDao.update(firm);
 	}
 
 	public void delete(Firm firm) {

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clienteservidor.preciosclaros.model.Locality;
-import com.clienteservidor.preciosclaros.restapi.responsestatus.ResourceNotFoundException;
 import com.clienteservidor.preciosclaros.service.LocalityService;
 
 @RestController
@@ -41,20 +40,12 @@ public class LocalityController extends GenericController<LocalityService> {
 	public Locality getCategory(@PathVariable("id") int id) {
 		Locality locality = service.findById(id);
 
-        if(locality == null) {
-        	throw new ResourceNotFoundException();
-        }
-
         return locality;
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void deleteById(@PathVariable("id") int id){
         Locality locality = service.findById(id);
-
-        if(locality == null) {
-        	throw new ResourceNotFoundException();
-        }
 
         service.delete(locality);
 	}
@@ -65,9 +56,9 @@ public class LocalityController extends GenericController<LocalityService> {
         return locality;
 	}
 	
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Locality update(@PathVariable("id") int id, @RequestBody Locality locality){
-        service.update(id, locality);
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public Locality update(@RequestBody Locality locality){
+        service.update(locality);
         return locality;
 	}
 

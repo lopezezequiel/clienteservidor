@@ -52,9 +52,9 @@ public class ProductController extends GenericController<ProductService> {
         return product;
 	}
 
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Product update(@PathVariable("id") int id, @RequestBody Product product){
-        service.update(id, product);
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public Product update(@RequestBody Product product){
+        service.update(product);
         return product;
 	}
 

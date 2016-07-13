@@ -14,7 +14,6 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
 import com.clienteservidor.preciosclaros.serialization.EntityToIdSerializer;
-import com.clienteservidor.preciosclaros.serialization.IdToLocalityDeserializer;
 import com.clienteservidor.preciosclaros.serialization.IdToProvinceDeserializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

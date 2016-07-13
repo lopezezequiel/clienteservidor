@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.clienteservidor.preciosclaros.Exceptions.EntityNotFoundException;
+import com.clienteservidor.preciosclaros.Exceptions.InvalidHashCodeException;
 import com.clienteservidor.preciosclaros.dao.UserDao;
 import com.clienteservidor.preciosclaros.model.User;
 
@@ -40,6 +41,18 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 
 	public User findByName(String name) {
 		return (User) getQuery().filterEq("name", name).getResults().get(0);
+	}
+
+	@Override
+	public User findByHashCode(String key) {
+		@SuppressWarnings("unchecked")
+		List<User> users = getQuery().filterEq("hashCode", key).getResults();
+		
+		if(users.size() != 1) {
+	        throw new InvalidHashCodeException();
+		}
+		
+		return users.get(0);
 	}
 
 }

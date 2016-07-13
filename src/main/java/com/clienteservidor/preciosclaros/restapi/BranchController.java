@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clienteservidor.preciosclaros.model.Branch;
 import com.clienteservidor.preciosclaros.model.BranchProduct;
 import com.clienteservidor.preciosclaros.model.Product;
-import com.clienteservidor.preciosclaros.restapi.responsestatus.ResourceNotFoundException;
 import com.clienteservidor.preciosclaros.serialization.CommaSeparatedListToIntegerListDeserializer;
 import com.clienteservidor.preciosclaros.service.BranchService;
 
@@ -55,24 +54,12 @@ public class BranchController extends GenericController<BranchService> {
 	
 	@RequestMapping("{id}")
 	public Branch findById(@PathVariable("id") int id) {
-        Branch branch = service.findById(id);
-
-        if(branch == null) {
-        	throw new ResourceNotFoundException();
-        }
-
-        return branch;
+        return service.findById(id);
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void deleteById(@PathVariable("id") int id){
-        Branch branch = service.findById(id);
-
-        if(branch == null) {
-        	throw new ResourceNotFoundException();
-        }
-
-        service.delete(branch);
+        service.delete(service.findById(id));
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
@@ -81,12 +68,15 @@ public class BranchController extends GenericController<BranchService> {
         return branch;
 	}
 
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Branch update(@PathVariable("id") int id, @RequestBody Branch branch){
-        service.update(id, branch);
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public Branch update(@RequestBody Branch branch){
+        service.update(branch);
         return branch;
 	}
 
+	/*
+	 * Branch Products
+	 */
 	@RequestMapping("{id}/products")
 	public Collection<Product> findAllProducts(
 		@PathVariable("id") int branchId,
@@ -108,8 +98,8 @@ public class BranchController extends GenericController<BranchService> {
 		
 	   	return service.findProductById(branchId, productId);
 	}
-	
-	
+
+/*
 	@RequestMapping(value = "{id}/products", method = RequestMethod.POST)
 	public void batchUpdateProducts(
 		@PathVariable("id") int branchId,
@@ -118,20 +108,25 @@ public class BranchController extends GenericController<BranchService> {
 	   	service.batchUpdateProducts(branchId, collection);
 	}
 
-	@RequestMapping(value = "{id}/products{ean}", method = RequestMethod.POST)
+	
+*/
+	
+	/*
+	 * 
+	 */
+	@RequestMapping(value = "{id}/products", method = RequestMethod.POST)
 	public void updateProducts(
 		@PathVariable("id") int branchId,
-		@PathVariable("ean") String ean,
 		@RequestBody BranchProduct branchProduct){
 		
-	   	service.updateProducts(branchId, ean, branchProduct);
+	   	service.updateBranchProduct(branchId, branchProduct);
 	}
 
-	@RequestMapping(value = "{id}/products{ean}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "{id}/products/{ean}", method = RequestMethod.DELETE)
 	public void delete(
-		@PathVariable("id") int branchId,
-		@PathVariable("ean") String ean){
+			@PathVariable("id") int branchId,
+			@PathVariable("ean") String ean){
 		
-	   	service.logicalDelete(branchId, ean);
+	   	service.deleteBranchProduct(branchId, ean);
 	}
 }

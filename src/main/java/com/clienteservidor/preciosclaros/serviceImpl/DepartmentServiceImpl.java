@@ -29,21 +29,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return departmentDao.findById(id);
 	}
 
-	public Department persist(Department entity) {
-		return departmentDao.persist(entity);
+	public Department persist(Department department) {
+		return departmentDao.persist(department);
 	}
 
-	public void update(int id, Department entity) {
-		Department oldDepartment = departmentDao.findById(id);
-		entity.setId(id);
-		entity.setVersion(oldDepartment.getVersion());
-		MyBeanUtils.copyProperties(entity, oldDepartment);
-
-		departmentDao.update(oldDepartment);
+	public void update(Department department) {
+		departmentDao.update(department);
 	}
 
-	public void delete(Department entity) {
-		departmentDao.delete(entity);
+	public void delete(Department department) {
+		departmentDao.delete(department);
 	}
 
 	public Collection<Department> findAll(Integer offset, Integer limit, Integer provinceId, String query) {

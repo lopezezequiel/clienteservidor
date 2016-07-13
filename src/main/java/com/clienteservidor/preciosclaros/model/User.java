@@ -38,8 +38,19 @@ public class User extends GenericEntity {
 	@ElementCollection
 	@CollectionTable(name="UserRole", joinColumns=@JoinColumn(name="user_id"))
 	@Column(name="role")
+	@NotNull
 	private Set<String> userRoles = new HashSet<String>();
 
+	@ElementCollection
+	@CollectionTable(name="Cart", joinColumns=@JoinColumn(name="user_id"))
+	@Column(name="product")
+	@JsonIgnore
+	@NotNull
+	private Set<Product> cart = new HashSet<Product>();
+
+	@JsonIgnore
+	private String hashCode;
+	
 	public User() {}
 
 	public String getMail() {
@@ -66,7 +77,6 @@ public class User extends GenericEntity {
 		this.enabled = enabled;
 	}
 
-	@JsonIgnore
 	public Set<String> getUserRoles() {
 		return userRoles;
 	}
@@ -83,5 +93,20 @@ public class User extends GenericEntity {
 		this.name = name;
 	}
 
+	public Set<Product> getCart() {
+		return cart;
+	}
+
+	public void setCart(Set<Product> cart) {
+		this.cart = cart;
+	}
+
+	public String getHashCode() {
+		return hashCode;
+	}
+
+	public void setHashCode(String hashCode) {
+		this.hashCode = hashCode;
+	}
 }
 

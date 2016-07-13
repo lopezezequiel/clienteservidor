@@ -3,7 +3,6 @@ package com.clienteservidor.preciosclaros.model;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -12,7 +11,6 @@ import org.hibernate.search.annotations.Indexed;
 
 import com.clienteservidor.preciosclaros.serialization.EntityToIdSerializer;
 import com.clienteservidor.preciosclaros.serialization.IdToDepartmentDeserializer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

@@ -1,7 +1,9 @@
+tv4.language('es');
+
 var DaoFactory = function(schema, url) {
 	
 	var parseResponse = function(response){
-		return (response.success ? response.json(): null);
+		return (response.code == 200 ? response.json(): null);
 	}
 
 	return {
@@ -16,16 +18,16 @@ var DaoFactory = function(schema, url) {
 		},
 		update: function(object) {
 			if(!tv4.validate(object, schema)) {
-				console.log(tv4.error);
+				sweetAlert(tv4.error.message);
 				throw new Error("Validation Error");
 			}
 
-			return Bappse.PUT(url + '/' + object.id).header('Content-Type', 'application/json')
+			return Bappse.PUT(url).header('Content-Type', 'application/json')
 				.data(object).pre(parseResponse);
 		},
 		persist: function(object) {
 			if(!tv4.validate(object, schema)) {
-				console.log(tv4.error);
+				sweetAlert(tv4.error.message);
 				throw new Error("Validation Error");
 			}
 
@@ -56,3 +58,28 @@ $dao.product = DaoFactory($schema.product, '/api_v1/products');
 $dao.unit = DaoFactory($schema.unit, '/api_v1/units');
 $dao.user = DaoFactory($schema.user, '/api_v1/users');
 $dao.role = DaoFactory($schema.role, '/api_v1/roles');
+
+
+
+$dao.session = (function() {
+	var parseResponse = function(response){
+		return (response.code == 200 ? response.json(): response);
+	}
+
+	return {
+		getUser: function() {
+			return Bappse.GET('/api_v1/session/user').pre(parseResponse);
+		},
+		signin: function(username, password) {
+			return Bappse.POST('/api_v1/session/signin')
+			.header('Authorization', 'Basic ' + btoa(username + ':' + password))
+			.pre(parseResponse);
+		},
+		signout: function() {
+			return Bappse.POST('/api_v1/session/signout').pre(parseResponse);
+		},
+		getCart: function() {
+			return cart;
+		}
+	}
+})();

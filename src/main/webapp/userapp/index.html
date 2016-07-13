@@ -16,6 +16,8 @@
     -->
     <link rel="stylesheet" href="/src/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="/src/sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="/src/sweetalert/themes/twitter/twitter.css">
     <link rel="stylesheet" href="/userapp/css/styles.css">
     <link rel="stylesheet" href="/userapp/css/maps.css">
 
@@ -56,20 +58,20 @@
               <a href="#sucursales" class="navbar-brand">
                 <img id="sucursales" class="logo" alt="Ver Sucursales Cercanas" src="/img/icons/store.png">
               </a>
+              <a href="#categorias" class="navbar-brand">
+                <img id="categorias" class="logo" alt="Ver Categorías" src="/img/icons/category.png">
+              </a>
             </div>
         
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             
 		      <form class="navbar-form navbar-left" role="search"  onsubmit="$service.stopSubmit()">
-                  <input type="text" class="form-control" id="input-search" onkeypress="$service.search(event)" placeholder="¿Que buscas?" autofocus>
+                  <input type="text" class="form-control" id="input-search" onkeypress="$service.index.search(event)" placeholder="¿Que buscas?" autofocus>
 		      </form>
 		      
               <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi Cuenta<span class="caret"></span></a>
-                  <ul id="user-options" class="dropdown-menu">
-                  </ul>
+                <li class="dropdown"  id="user-options" >
                 </li>
               </ul>
             </div><!-- /.navbar-collapse -->
@@ -93,8 +95,11 @@
     <script src="/src/bootstrap-table/dist/locale/bootstrap-table-es-AR.js"></script>
     <script src="/src/handlebars/handlebars.min.js"></script>
     <script src="/src/tv4/tv4.js"></script>
+    <script src="/src/tv4/lang/es-AR.js"></script>
+    <script src="/src/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/src/Bappse.js"></script>
     
+    <script src="/userapp/js/widgets.js"></script>
     <script src="/userapp/js/config.js"></script>
     <script src="/userapp/js/schema.js"></script>
     <script src="/userapp/js/dao.js"></script>

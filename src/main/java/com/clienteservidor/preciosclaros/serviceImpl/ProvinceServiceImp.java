@@ -28,13 +28,8 @@ public class ProvinceServiceImp implements ProvinceService {
 		return provinceDao.persist(province);
 	}
 
-	public void update(int id, Province province) {
-		Province oldProvince = provinceDao.findById(id);
-		province.setId(id);
-		province.setVersion(oldProvince.getVersion());
-		MyBeanUtils.copyProperties(province, oldProvince);
-
-		provinceDao.update(oldProvince);
+	public void update(Province province) {
+		provinceDao.update(province);
 	}
 
 	public void delete(Province province) {

@@ -23,6 +23,17 @@ $service.pagination = function(currentPage, totalPages, size) {
 	return pagination;
 }
 
+/*
+ * Stop Submit
+ */
+$service.stopSubmit = function(event) {
+	if(!event) {
+		event = window.event;
+	}
+	event.preventDefault();
+	return false;
+}
+
 
 /*
  * Category Service
@@ -409,12 +420,38 @@ $service.branch.loadLocalities = function(select, target_id) {
 /*
  * NormalUser Service
  */
-$service.branchUser = {};
+$service.user = {}
 
-$service.branchUser.persist = function(form) {
+$service.user.persist = function(form) {
 	var user = Bappse.getFormData(form);
+	
+	console.log(user);
+	
+	$dao.user.persist(user)
+	.success(200, function(user) {
+		Bappse.setHash('users');
+	})
+	.success(-200, function() {
+		sweetAlert('Se produjo un error');
+	})
+	.error(function() {
+		sweetAlert('Se produjo un error');
+	})
+	.ok();
+}
 
-	$dao.branchUser.persist(user).success(function(user) {
-		Bappse.setHash('branchUsers');
+$service.category.update = function(form) {
+	var category = Bappse.getFormData(form);
+	category.id = parseInt(category.id);
+	category.parent = parseInt(category.parent);
+
+	$dao.category.update(category).success(function(category) {
+		Bappse.setHash('categories');
+	}).ok();
+}
+
+$service.category.remove = function(id) {
+	$dao.category.deleteById(id).success(function() {
+		Bappse.setHash('categories');
 	}).ok();
 }

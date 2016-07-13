@@ -13,8 +13,10 @@ SOURCE ../0.0.2/ProductInsert.sql
 SOURCE ../0.0.2/LocalityInsert.sql
 SOURCE ../0.0.2/DepartmentInsert.sql
 SOURCE ../0.0.2/BranchInsert.sql
+SOURCE ../0.0.2/BranchProductInsert.sql
 SOURCE ../0.0.2/FirmInsert.sql
 SOURCE ../0.0.2/CompanyInsert.sql
 SOURCE ../0.0.2/AfipInsert.sql
+SOURCE ../0.0.2/UserInsert.sql
 
 SET FOREIGN_KEY_CHECKS = 1;

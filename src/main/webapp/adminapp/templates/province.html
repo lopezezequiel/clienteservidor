@@ -2,7 +2,7 @@
   <div class="panel-heading">Provincia</div>
   <div class="panel-body">
     
-<form role="form">
+<form role="form" onsubmit="$service.stopSubmit(event)">
 
     {{#if province.id}}
     <div class="form-group">

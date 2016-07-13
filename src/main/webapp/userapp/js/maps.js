@@ -3,6 +3,7 @@ var $map = (function(mapId, position, onInit, onClose) {
 	var map;
 	var marker;
 	var dom = document.getElementById(mapId);
+	var ready = false;
 
 	var $ = function() {}
 
@@ -15,7 +16,7 @@ var $map = (function(mapId, position, onInit, onClose) {
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		});
 		
-		$.setPosition(map.getCenter());
+		$.setPosition(position);
 
 
 		$.hide();
@@ -70,13 +71,15 @@ var $map = (function(mapId, position, onInit, onClose) {
 		if(onInit) {
 			onInit.call(onInit);
 		}
+		
+		ready = true;
 	}
 	
 	
 	$.show = function() {
 		dom.style.display = 'block';
-		google.maps.event.trigger(map, 'resize');
 		$.setPosition(marker.getPosition());
+		google.maps.event.trigger(map, 'resize');
 	}
 	
 	
@@ -86,9 +89,13 @@ var $map = (function(mapId, position, onInit, onClose) {
 	
 	$.getPosition = function() {
 		
-		if(marker) {	
-			return marker.getPosition();
+		if(marker) {
+			return {
+				lat: marker.getPosition().lat(),
+				lng: marker.getPosition().lng()
+			}
 		}
+		return position;
 	}
 	
 	
@@ -98,7 +105,8 @@ var $map = (function(mapId, position, onInit, onClose) {
 		}
 
 		marker = new google.maps.Marker({
-			position: latLng, 
+			position: latLng,
+			icon: '/img/icons/placeholderok.png',
 			map: map
 		});
 	}
@@ -118,6 +126,10 @@ var $map = (function(mapId, position, onInit, onClose) {
 		}
 	}
 	
+	$.ready = function() {
+		return ready;
+	}
+	
 	return $;
 	
 })('map', {lat:-38.416097, lng:-63.61667199999999}, function() {
@@ -125,4 +137,8 @@ var $map = (function(mapId, position, onInit, onClose) {
 		document.getElementById('location').onclick = function() {
 			Bappse.setHash('#ubicacion');
 		}
+		if(Bappse.getHash() == 'ubicacion') {
+			$map.show();
+		}
+		$map.geolocate();
 	}, function() {Bappse.setHash('carrito');});

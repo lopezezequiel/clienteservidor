@@ -13,4 +13,5 @@ public interface UserDao {
     void delete(User user);
 	int size(String query);
 	User findByName(String name);
+	User findByHashCode(String key);
 }

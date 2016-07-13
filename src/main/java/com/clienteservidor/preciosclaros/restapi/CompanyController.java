@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clienteservidor.preciosclaros.model.Company;
-import com.clienteservidor.preciosclaros.restapi.responsestatus.ResourceNotFoundException;
 import com.clienteservidor.preciosclaros.service.CompanyService;
 
 @RestController
@@ -39,20 +38,12 @@ public class CompanyController extends GenericController<CompanyService> {
 	public Company getCompany(@PathVariable("id") int id) {
 		Company company = service.findById(id);
 
-        if(company == null) {
-        	throw new ResourceNotFoundException();
-        }
-
         return company;
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void deleteById(@PathVariable("id") int id){
         Company company = service.findById(id);
-
-        if(company == null) {
-        	throw new ResourceNotFoundException();
-        }
 
         service.delete(company);
 	}
@@ -63,9 +54,9 @@ public class CompanyController extends GenericController<CompanyService> {
         return company;
 	}
 	
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public Company update(@PathVariable("id") int id, @RequestBody Company company){
-        service.update(id, company);
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public Company update(@RequestBody Company company){
+        service.update(company);
         return company;
 	}
 

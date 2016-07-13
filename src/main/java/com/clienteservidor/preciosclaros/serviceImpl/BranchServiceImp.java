@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.clienteservidor.preciosclaros.Exceptions.UnauthorizedException;
 import com.clienteservidor.preciosclaros.beanutils.MyBeanUtils;
 import com.clienteservidor.preciosclaros.dao.BranchDao;
 import com.clienteservidor.preciosclaros.dao.BranchProductDao;
@@ -18,6 +19,9 @@ import com.clienteservidor.preciosclaros.model.Branch;
 import com.clienteservidor.preciosclaros.model.BranchProduct;
 import com.clienteservidor.preciosclaros.model.Locality;
 import com.clienteservidor.preciosclaros.model.Product;
+import com.clienteservidor.preciosclaros.model.Session;
+import com.clienteservidor.preciosclaros.model.User;
+import com.clienteservidor.preciosclaros.model.UserRole;
 import com.clienteservidor.preciosclaros.model.Firm;
 import com.clienteservidor.preciosclaros.service.BranchService;
 
@@ -37,6 +41,9 @@ public class BranchServiceImp implements BranchService {
 
 	@Autowired
 	private LocalityDao localityDao;
+	
+	@Autowired
+	private Session session;
 	
 	@Autowired
 	private FirmDao firmDao;
@@ -61,14 +68,8 @@ public class BranchServiceImp implements BranchService {
 		return branchDao.persist(branch);
 	}
 
-	public void update(int id, Branch branch) {
-		Branch oldBranch = branchDao.findById(id);
-
-		branch.setId(id);
-		branch.setVersion(oldBranch.getVersion());
-		MyBeanUtils.copyProperties(branch, oldBranch);
-
-		branchDao.update(oldBranch);
+	public void update(Branch branch) {
+		branchDao.update(branch);
 	}
 
 	public void delete(Branch branch) {
@@ -121,6 +122,10 @@ public class BranchServiceImp implements BranchService {
 	@Override
 	public void batchUpdateProducts(int branchId, Collection<BranchProduct> collection) {
 		Branch branch = branchDao.findById(branchId);
+		
+		if(session.getUser() != branch.getAdmin()) {
+			throw new UnauthorizedException();
+		}
 
 		for(BranchProduct bp: collection) {
 
@@ -185,5 +190,40 @@ public class BranchServiceImp implements BranchService {
    		product.setPrice(branchProduct.getPrice());
    		product.setPromotions(branchProduct.getPromotions());
 		return product;
+	}
+
+	@Override
+	public void updateBranchProduct(int branchId, BranchProduct branchProduct) {
+		User user = session.getUser();
+		Branch branch = branchDao.findById(branchId);
+
+		//check admin
+		if(branch.getAdmin().getId() != user.getId()) {
+			throw new UnauthorizedException();
+		}
+
+		logicalDelete(branch, branchProduct.getProduct());
+
+		branchProduct.setBranch(branch);
+		branchProduct.setExpired(false);
+		branchProduct.setVersion(0);
+		
+		branchProductDao.persist(branchProduct);		
+
+	}
+
+	@Override
+	public void deleteBranchProduct(int branchId, String ean) {
+		User user = session.getUser();
+		Branch branch = branchDao.findById(branchId);
+		Product product = productDao.findByEAN(ean);
+
+
+		//check admin
+		if(branch.getAdmin().getId() != user.getId()) {
+			throw new UnauthorizedException();
+		}
+				
+		logicalDelete(branch, product);
 	}
 }

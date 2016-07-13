@@ -28,13 +28,8 @@ public class UnitServiceImpl implements UnitService {
 		return unitDao.persist(unit);
 	}
 
-	public void update(int id, Unit unit) {
-		Unit oldUnit = unitDao.findById(id);
-		unit.setId(id);
-		unit.setVersion(oldUnit.getVersion());
-		MyBeanUtils.copyProperties(unit, oldUnit);
-
-		unitDao.update(oldUnit);
+	public void update(Unit unit) {
+		unitDao.update(unit);
 	}
 
 	public void delete(Unit unit) {

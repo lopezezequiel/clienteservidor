@@ -3,11 +3,26 @@ package com.clienteservidor.preciosclaros.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.security.access.annotation.Secured;
+
 import com.clienteservidor.preciosclaros.model.Branch;
 import com.clienteservidor.preciosclaros.model.BranchProduct;
 import com.clienteservidor.preciosclaros.model.Product;
+import com.clienteservidor.preciosclaros.model.UserRole;
 
 public interface BranchService extends GenericService<Branch> {
+
+	Branch findById(int id);
+	
+	@Secured({UserRole.ADMIN_C1})
+	Branch persist(Branch branch);
+	
+	@Secured({UserRole.ADMIN_C1})
+    void update(Branch branch);
+	
+	@Secured({UserRole.ADMIN_C1})
+    void delete(Branch branch);
+
 	public Collection<Branch> findAll(Integer offset, Integer limit, Integer firmId, List<Integer> ids,
 			Integer localityId, Double latitude, Double longitude);
 
@@ -19,4 +34,12 @@ public interface BranchService extends GenericService<Branch> {
 			boolean expired);
 
 	public Product findProductById(int branchId, int productId);
+
+
+	@Secured({UserRole.BRANCH})
+	void updateBranchProduct(int branchId, BranchProduct branchProduct);
+
+
+	@Secured({UserRole.BRANCH})
+	void deleteBranchProduct(int branchId, String ean);
 }
