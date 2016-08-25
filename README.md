@@ -1,12 +1,13 @@
 TODO List
 =========
 
-- [] RAML
-- [] Mejorar busquedas Full Text
-- [] Agregar Excepciones faltantes
-- [] Eliminar archivos temporales
-- [] Agregar filtros
-- [] Refactorizar, Refactorizar y Refactorizar
+
+- [ ] RAML
+- [ ] Mejorar busquedas Full Text
+- [ ] Agregar Excepciones faltantes
+- [ ] Eliminar archivos temporales
+- [ ] Agregar filtros
+- [ ] Refactorizar, Refactorizar y Refactorizar
 
 
 
