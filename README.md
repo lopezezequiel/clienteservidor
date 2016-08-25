@@ -1,17 +1,12 @@
 TODO List
 =========
 
-- [] Google Maps
 - [] RAML
-- [] Spatial
-- [] Full Text
-- [] Roles
+- [] Mejorar busquedas Full Text
 - [] Agregar Excepciones faltantes
-- [] Mostrar mensajes de error al usuario
-- [] Agregar cascadeType
-- [] eliminar archivos temporales
-- [] Mostrar mensajes de confirmacion
+- [] Eliminar archivos temporales
 - [] Agregar filtros
+- [] Refactorizar, Refactorizar y Refactorizar
 
 
 
