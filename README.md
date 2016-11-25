@@ -1,5 +1,5 @@
 # Acerca del proyecto
-Este es el trabajo integrador de la materia Cliente-Servidor. Solo tiene fines académicos, no esta pensado para un entorno de producción. Puede ser útil para ver las diferentes capas de abstracción de un proyecto java, como trabajar con spring, crear servicios rest, consumirlos desde el browser, validar modelos, renderizar html con javascript
+Este es el trabajo integrador de la materia Cliente-Servidor. Solo tiene fines académicos, no esta pensado para un entorno de producción. Puede ser útil para ver las diferentes capas de abstracción de un proyecto java, como trabajar con spring, crear servicios rest, consumirlos desde el browser, usar raml, configurar la aplicación, busquedas full-text, etc 
 
 
 TODO List
